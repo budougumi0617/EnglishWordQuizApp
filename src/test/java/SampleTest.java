@@ -19,7 +19,7 @@ public class SampleTest {
 
 	@Test
 	public void test() {
-		assertThat(1, is(1));
+		assertThat(Sample.sampleMethod(), is(10));
 	}
 
 }

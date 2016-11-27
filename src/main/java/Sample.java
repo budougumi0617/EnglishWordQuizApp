@@ -20,4 +20,7 @@ public class Sample {
 
 	}
 
+	public static int sampleMethod() {
+		return 10;
+	}
 }
