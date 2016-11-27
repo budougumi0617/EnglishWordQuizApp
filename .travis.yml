@@ -1,0 +1,12 @@
+language: java
+sudo: false
+
+jdk:
+- oraclejdk8
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
+
+env:
+  global:
+    - CI_NAME=travis-ci
