@@ -58,3 +58,7 @@ jacocoTestReport {
 }
 
 cobertura.coverageFormats = ['html', 'xml']
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
