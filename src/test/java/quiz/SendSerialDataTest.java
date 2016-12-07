@@ -151,7 +151,7 @@ public class SendSerialDataTest {
 	/**
 	 * 正常系テスト {@link quiz.SendSerialData#setCommPort()}
 	 *
-	 * @note 引数で受け取ったString型COMポート番号がメンバに設定されているか判定する
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetCommPort() {
@@ -169,7 +169,7 @@ public class SendSerialDataTest {
 	/**
 	 * 正常系テスト {@link quiz.SendSerialData#setMessage()}
 	 *
-	 * @note 引数で受け取ったString型文字列がメンバに設定されているか判定する
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetMessage() {

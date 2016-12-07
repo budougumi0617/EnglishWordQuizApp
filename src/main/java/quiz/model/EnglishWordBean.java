@@ -74,7 +74,7 @@ public class EnglishWordBean {
 	 * 品詞のセッターメソッド
 	 *
 	 * @param part
-	 *            Int型 品詞
+	 *            Part列挙型 品詞
 	 */
 	public void setPart(Part part) {
 		this.part = part;

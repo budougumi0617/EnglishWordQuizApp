@@ -26,15 +26,19 @@ repositories {
         maven {
         url "https://mvnrepository.com/artifact/org.rxtx/rxtx"
         url "https://mvnrepository.com/artifact/org.powermock/powermock-mockito-release-full"
+        url "https://mvnrepository.com/artifact/mysql/mysql-connector-java"
     }
 }
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
 
+    testCompile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     testCompile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
     testCompile group: 'org.powermock', name: 'powermock-mockito-release-full', version: '1.6.4'
+    testcompile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
 }
 
 test {

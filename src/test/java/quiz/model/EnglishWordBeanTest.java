@@ -44,7 +44,9 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#getId()} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#getId()}
+	 *
+	 * @note メンバが取得できるか判定する
 	 */
 	@Test
 	public void testGetId() {
@@ -59,7 +61,7 @@ public class EnglishWordBeanTest {
 	/**
 	 * 正常系テスト {@link quiz.model.EnglishWordBean#setId()}
 	 *
-	 * @note 引数で受け取ったInt型IDがメンバに設定されているか判定する
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetId() {
@@ -75,7 +77,9 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#getWord()} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#getWord()}
+	 *
+	 * @note メンバが取得できるか判定する
 	 */
 	@Test
 	public void testGetWord() {
@@ -88,8 +92,9 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#setWord(java.lang.String)}
-	 * のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#setWord()}
+	 *
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetWord() {
@@ -105,7 +110,9 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#getPart()} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#getPart()}
+	 *
+	 * @note メンバが取得できるか判定する
 	 */
 	@Test
 	public void testGetPart() {
@@ -119,7 +126,9 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#setPart(int)} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#setPart()}
+	 *
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetPart() {
@@ -136,21 +145,24 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#getMean()} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#getMean()}
+	 *
+	 * @note メンバが取得できるか判定する
 	 */
 	@Test
 	public void testGetMean() {
 		try {
-			ewb.setWord("承認する");
-			assertThat(ewb.getWord(), is("承認する"));
+			ewb.setMean("承認する");
+			assertThat(ewb.getMean(), is("承認する"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#setMean(java.lang.String)}
-	 * のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#setMean()}
+	 *
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetMean() {
@@ -166,21 +178,24 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#getUpdateTime()} のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#getUpdateTime()}
+	 *
+	 * @note メンバが取得できるか判定する
 	 */
 	@Test
 	public void testGetUpdateTime() {
 		try {
-			ewb.setWord("2016.12.06-14:37");
-			assertThat(ewb.getWord(), is("2016.12.06-14:37"));
+			ewb.setUpdateTime("2016.12.06-14:37");
+			assertThat(ewb.getUpdateTime(), is("2016.12.06-14:37"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
 	}
 
 	/**
-	 * {@link quiz.model.EnglishWordBean#setUpdateTime(java.lang.String)}
-	 * のためのテスト・メソッド。
+	 * 正常系テスト {@link quiz.model.EnglishWordBean#setUpdateTime()}
+	 *
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
 	public void testSetUpdateTime() {
