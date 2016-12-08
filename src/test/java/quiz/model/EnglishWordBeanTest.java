@@ -110,6 +110,25 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
+	 * 異常系テスト {@link quiz.model.EnglishWordBean#setWord()}
+	 *
+	 * @note 引数で受け取った値が異常値の際IllegalArgumentExceptionを返すか判定する
+	 */
+	@Test
+	public void testSetWordError() {
+		try {
+			field = EnglishWordBean.class.getDeclaredField("word");
+			field.setAccessible(true);
+
+			ewb.setWord("abcdeabcdeabcdeab");
+			fail();
+		} catch (Exception ex) {
+			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+		}
+
+	}
+
+	/**
 	 * 正常系テスト {@link quiz.model.EnglishWordBean#getPart()}
 	 *
 	 * @note メンバが取得できるか判定する
@@ -178,6 +197,25 @@ public class EnglishWordBeanTest {
 	}
 
 	/**
+	 * 異常系テスト {@link quiz.model.EnglishWordBean#setMean()}
+	 *
+	 * @note 引数で受け取った値が異常値の際IllegalArgumentExceptionを返すか判定する
+	 */
+	@Test
+	public void testSetMeanError() {
+		try {
+			field = EnglishWordBean.class.getDeclaredField("mean");
+			field.setAccessible(true);
+
+			ewb.setMean("　 　　	");
+			fail();
+		} catch (Exception ex) {
+			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+		}
+
+	}
+
+	/**
 	 * 正常系テスト {@link quiz.model.EnglishWordBean#getUpdateTime()}
 	 *
 	 * @note メンバが取得できるか判定する
@@ -185,8 +223,8 @@ public class EnglishWordBeanTest {
 	@Test
 	public void testGetUpdateTime() {
 		try {
-			ewb.setUpdateTime("2016.12.06-14:37");
-			assertThat(ewb.getUpdateTime(), is("2016.12.06-14:37"));
+			ewb.setUpdateTime("2016-12-06 04:37:22.0");
+			assertThat(ewb.getUpdateTime(), is("2016-12-06 04:37:22"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
@@ -203,11 +241,31 @@ public class EnglishWordBeanTest {
 			field = EnglishWordBean.class.getDeclaredField("updateTime");
 			field.setAccessible(true);
 
-			ewb.setUpdateTime("2016.12.06-16:57");
-			assertThat((String) field.get(ewb), is("2016.12.06-16:57"));
+			ewb.setUpdateTime("2016-12-06 04:07:22.0");
+			assertThat((String) field.get(ewb), is("2016-12-06 04:07:22"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
 	}
+
+	/**
+	 * 異常系テスト {@link quiz.model.EnglishWordBean#setUpdateTime()}
+	 *
+	 * @note 引数で受け取った値が異常値の際IllegalArgumentExceptionを返すか判定する
+	 */
+	@Test
+	public void testSetUpdateTimeError() {
+		try {
+			field = EnglishWordBean.class.getDeclaredField("updateTime");
+			field.setAccessible(true);
+
+			ewb.setUpdateTime("はじいてね");
+			fail();
+		} catch (Exception ex) {
+			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+		}
+
+	}
+
 
 }
