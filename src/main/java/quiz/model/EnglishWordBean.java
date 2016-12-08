@@ -3,6 +3,10 @@
  */
 package quiz.model;
 
+import quiz.CheckInput;
+import quiz.CheckMean;
+import quiz.CheckWord;
+
 /**
  * レコードデータ格納クラス
  *
@@ -22,6 +26,10 @@ public class EnglishWordBean {
 	private String mean;
 	/** 更新日時 */
 	private String updateTime;
+
+	private CheckInput checkWord = new CheckWord();
+	private CheckInput checkMean = new CheckMean();
+
 
 	/**
 	 * IDのゲッターメソッド
@@ -56,8 +64,12 @@ public class EnglishWordBean {
 	 *
 	 * @param word
 	 *            String型 英単語
+	 * @throws Exception
 	 */
-	public void setWord(String word) {
+	public void setWord(String word) throws IllegalArgumentException {
+		if(checkWord.existsError(word)){
+			throw new IllegalArgumentException();
+		}
 		this.word = word;
 	}
 
@@ -94,8 +106,12 @@ public class EnglishWordBean {
 	 *
 	 * @param mean
 	 *            String型 英単語意味
+	 * @throws Exception
 	 */
-	public void setMean(String mean) {
+	public void setMean(String mean) throws IllegalArgumentException {
+		if(checkMean.existsError(mean)){
+			throw new IllegalArgumentException();
+		}
 		this.mean = mean;
 	}
 
@@ -115,6 +131,11 @@ public class EnglishWordBean {
 	 *            String型 更新日時
 	 */
 	public void setUpdateTime(String updateTime) {
+
+		if(!updateTime.matches("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{1,2}:\\d{1,2}\\.[0]")){
+			throw new IllegalArgumentException();
+		}
+		updateTime = updateTime.substring(0, updateTime.length()-2);
 		this.updateTime = updateTime;
 	}
 

@@ -1,5 +1,5 @@
 /**
- *
+ * @file 2016/12/07
  */
 package quiz.model;
 
@@ -23,7 +23,7 @@ public class SqlDataStore implements DataStore {
 	PreparedStatement ps = null;
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】 DBに接続するメソッド
 	 *
 	 * @see quiz.model.DataStore#open()
 	 */
@@ -34,8 +34,8 @@ public class SqlDataStore implements DataStore {
 		Class.forName("com.mysql.jdbc.Driver");
 
 		/* DBに接続 */
-		con = DriverManager.getConnection(
-				"jdbc:mysql://localhost/englishwordquiz?autoReconnect = true & use SSL = false", "root", "root");
+		con = DriverManager.getConnection("jdbc:mysql://localhost/englishwordquiz?autoReconnect=true&useSSL=false",
+				"root", "root");
 
 		/**
 		 * @接続するDB情報
@@ -51,9 +51,12 @@ public class SqlDataStore implements DataStore {
 	}
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】 DB接続を閉じるメソッド
 	 *
-	 * @see quiz.model.DataStore#close()
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public void close() throws Exception {
@@ -68,9 +71,12 @@ public class SqlDataStore implements DataStore {
 	}
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】データ全件取得メソッド
 	 *
-	 * @see quiz.model.DataStore#getAll()
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public ArrayList<EnglishWordBean> getAll() throws Exception {
@@ -82,7 +88,7 @@ public class SqlDataStore implements DataStore {
 
 		ArrayList<EnglishWordBean> allData = new ArrayList<EnglishWordBean>();
 
-		/* データ表示 */
+		/* データ格納 */
 		while (rs.next()) {
 			EnglishWordBean bean = new EnglishWordBean();
 
@@ -99,20 +105,30 @@ public class SqlDataStore implements DataStore {
 	}
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】データ1件追加メソッド
 	 *
-	 * @see quiz.model.DataStore#insert(quiz.model.EnglishWordBean)
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public void insert(EnglishWordBean bean) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+		String sql = "insert englishword set word = '" + bean.getWord() + "' , part = '" + bean.getPart().toString()
+				+ "'  , mean = '" + bean.getMean() + "'";
+
+		ps = con.prepareStatement(sql);
+		ps.executeUpdate(sql);
 
 	}
 
 	/**
-	 * 【要求仕様 C】
+	 * 【要求仕様 C】データ1件更新メソッド
 	 *
-	 * @see quiz.model.DataStore#update(quiz.model.EnglishWordBean)
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public void update(EnglishWordBean bean) throws Exception {
@@ -121,9 +137,12 @@ public class SqlDataStore implements DataStore {
 	}
 
 	/**
-	 * 【要求仕様 B】 (非 Javadoc)
+	 * 【要求仕様 B】データ1件削除メソッド
 	 *
-	 * @see quiz.model.DataStore#delete(quiz.model.EnglishWordBean)
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public void delete(EnglishWordBean bean) throws Exception {
@@ -132,25 +151,64 @@ public class SqlDataStore implements DataStore {
 	}
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】データ1件検索メソッド
 	 *
-	 * @see quiz.model.DataStore#searchWord(quiz.model.EnglishWordBean)
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public EnglishWordBean searchWord(EnglishWordBean bean) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+
+		String sql = "select * from englishword where word like '" + bean.getWord() + "' "
+				+ "and mean like '%" + bean.getMean() + "%'  order by updated_at desc limit 1 ";
+
+		ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery(sql);
+
+		EnglishWordBean searchBean = new EnglishWordBean();
+
+		/* データ表示 */
+		if (rs.next()) {
+			searchBean.setId(rs.getInt("id"));
+			searchBean.setWord(rs.getString("word"));
+			searchBean.setPart(Part.valueOf(rs.getString("part")));
+			searchBean.setMean(rs.getString("mean"));
+			searchBean.setUpdateTime(rs.getString("updated_at"));
+
+		}
+
+		return searchBean;
 	}
 
 	/**
-	 * 【要求仕様 A】
+	 * 【要求仕様 A】データ1件ランダム取得メソッド
 	 *
-	 * @see quiz.model.DataStore#getRandom()
+	 * @throws java.lang.Exception
+	 *             発生する全例外
+	 *
+	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public EnglishWordBean getRandom() throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		String sql = "select * from englishword order by rand() limit 1 ";
+
+		ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery(sql);
+
+		EnglishWordBean randomBean = new EnglishWordBean();
+
+		if (rs.next()) {
+			randomBean.setId(rs.getInt("id"));
+			randomBean.setWord(rs.getString("word"));
+			randomBean.setPart(Part.valueOf(rs.getString("part")));
+			randomBean.setMean(rs.getString("mean"));
+			randomBean.setUpdateTime(rs.getString("updated_at"));
+
+		}
+
+		return randomBean;
 	}
 
 }

@@ -34,7 +34,7 @@ public interface DataStore {
 	void close() throws Exception;
 
 	/**
-	 * 全データ取得メソッド
+	 * データ全件取得メソッド
 	 *
 	 * @return ArrayList 全データリスト
 	 * @note ArrayList格納データ - EnglishWordBean
