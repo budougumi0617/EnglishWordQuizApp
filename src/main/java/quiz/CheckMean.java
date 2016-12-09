@@ -23,17 +23,7 @@ public class CheckMean implements CheckInput {
 	 */
 	@Override
 	public Boolean validate(String mean) {
-
-		String noEmptyMean = null;
-
-		if(mean != null ){
-			/* 半角スペース・全角スペース・タブスペースのみの入力でないか判定するために""へ置換する */
-			noEmptyMean = mean.replaceAll(" ", "");
-			noEmptyMean = noEmptyMean.replaceAll("	", "");
-			noEmptyMean = noEmptyMean.replaceAll("　", "");
-		}
-
-		return  (mean == null || mean.length() > MAX_LENGTH || noEmptyMean.equals(""));
+		return (mean == null || mean.length() > MAX_LENGTH || mean.matches("^[\\t 　]*$"));
 	}
 
 }

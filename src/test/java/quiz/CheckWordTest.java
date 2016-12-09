@@ -147,7 +147,7 @@ public class CheckWordTest {
 	 */
 	@Test
 	public void testIncludeJapaneseLang() {
-		assertThat(cw.validate("じゅうジュウ十"), is(true));
+		assertThat(cw.validate("emじゅうジュウ十mo"), is(true));
 	}
 
 	/**

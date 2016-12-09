@@ -11,9 +11,6 @@ package quiz;
  */
 public class CheckWord implements CheckInput {
 
-	/** 入力値 上限文字数 */
-	private final int MAX_LENGTH = 16;
-
 	/**
 	 * 入力英単語が半角英語16文字（空欄を除く）か判定する
 	 *
@@ -24,7 +21,7 @@ public class CheckWord implements CheckInput {
 	@Override
 	public Boolean validate(String word) {
 
-		return (word == null || word.length() > MAX_LENGTH || !word.matches("^[a-zA-Z]*$") || word.equals(""));
+		return (word == null || !word.matches("^[a-zA-Z]{1,16}$"));
 
 	}
 
