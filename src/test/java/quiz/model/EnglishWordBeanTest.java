@@ -123,7 +123,7 @@ public class EnglishWordBeanTest {
 			ewb.setWord("abcdeabcdeabcdeab");
 			fail();
 		} catch (Exception ex) {
-			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+			assertThat(ex, instanceOf(IllegalArgumentException.class));
 		}
 
 	}
@@ -210,7 +210,7 @@ public class EnglishWordBeanTest {
 			ewb.setMean("　 　　	");
 			fail();
 		} catch (Exception ex) {
-			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+			assertThat(ex, instanceOf(IllegalArgumentException.class));
 		}
 
 	}
@@ -262,10 +262,9 @@ public class EnglishWordBeanTest {
 			ewb.setUpdateTime("はじいてね");
 			fail();
 		} catch (Exception ex) {
-			 assertThat(ex, instanceOf(IllegalArgumentException.class));
+			assertThat(ex, instanceOf(IllegalArgumentException.class));
 		}
 
 	}
-
 
 }

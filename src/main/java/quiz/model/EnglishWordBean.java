@@ -21,15 +21,15 @@ public class EnglishWordBean {
 	private String word;
 	/** 品詞 */
 	private Part part;
-
 	/** 英単語意味 */
 	private String mean;
 	/** 更新日時 */
 	private String updateTime;
 
+	/** 英単語 入力チェック */
 	private CheckInput checkWord = new CheckWord();
+	/** 英単語意味 入力チェック */
 	private CheckInput checkMean = new CheckMean();
-
 
 	/**
 	 * IDのゲッターメソッド
@@ -67,7 +67,7 @@ public class EnglishWordBean {
 	 * @throws Exception
 	 */
 	public void setWord(String word) throws IllegalArgumentException {
-		if(checkWord.existsError(word)){
+		if (checkWord.existsError(word)) {
 			throw new IllegalArgumentException();
 		}
 		this.word = word;
@@ -109,7 +109,7 @@ public class EnglishWordBean {
 	 * @throws Exception
 	 */
 	public void setMean(String mean) throws IllegalArgumentException {
-		if(checkMean.existsError(mean)){
+		if (checkMean.existsError(mean)) {
 			throw new IllegalArgumentException();
 		}
 		this.mean = mean;
@@ -132,10 +132,10 @@ public class EnglishWordBean {
 	 */
 	public void setUpdateTime(String updateTime) {
 
-		if(!updateTime.matches("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{1,2}:\\d{1,2}\\.[0]")){
+		if (!updateTime.matches("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{1,2}:\\d{1,2}\\.[0]")) {
 			throw new IllegalArgumentException();
 		}
-		updateTime = updateTime.substring(0, updateTime.length()-2);
+		updateTime = updateTime.substring(0, updateTime.length() - 2);
 		this.updateTime = updateTime;
 	}
 
