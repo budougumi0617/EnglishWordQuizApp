@@ -161,4 +161,16 @@ public class CheckWordTest {
 		assertThat(cw.validate(""), is(true));
 	}
 
+	/**
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
+	 *
+	 * @note 引数 null
+	 * @note 期待戻り値 true
+	 */
+	@Test
+	public void testGetNull() {
+		assertThat(cw.validate(null), is(true));
+	}
+
+
 }

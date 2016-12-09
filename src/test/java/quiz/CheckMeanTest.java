@@ -108,4 +108,15 @@ public class CheckMeanTest {
 		assertThat(cm.validate("   　　　		"), is(true));
 	}
 
+	/**
+	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
+	 *
+	 * @note 引数 null
+	 * @note 期待戻り値 true
+	 */
+	@Test
+	public void testGetNull() {
+		assertThat(cm.validate(null), is(true));
+	}
+
 }

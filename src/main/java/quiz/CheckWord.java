@@ -24,7 +24,7 @@ public class CheckWord implements CheckInput {
 	@Override
 	public Boolean validate(String word) {
 
-		return (word.length() > MAX_LENGTH || !word.matches("^[a-zA-Z]*$") || word.equals(""));
+		return (word == null || word.length() > MAX_LENGTH || !word.matches("^[a-zA-Z]*$") || word.equals(""));
 
 	}
 
