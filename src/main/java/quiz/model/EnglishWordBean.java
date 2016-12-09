@@ -3,6 +3,9 @@
  */
 package quiz.model;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import quiz.CheckInput;
 import quiz.CheckMean;
 import quiz.CheckWord;
@@ -64,11 +67,12 @@ public class EnglishWordBean {
 	 *
 	 * @param word
 	 *            String型 英単語
-	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 *             入力チェックで定義外引数が入力されたときにスローする
 	 */
 	public void setWord(String word) throws IllegalArgumentException {
-		if (checkWord.existsError(word)) {
-			throw new IllegalArgumentException();
+		if (checkWord.validate(word)) {
+			throw new IllegalArgumentException("EnglishWordBeanクラス 英単語 入力値に異常値があります");
 		}
 		this.word = word;
 	}
@@ -106,11 +110,12 @@ public class EnglishWordBean {
 	 *
 	 * @param mean
 	 *            String型 英単語意味
-	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 *             入力チェックで定義外引数が入力されたときにスローする
 	 */
 	public void setMean(String mean) throws IllegalArgumentException {
-		if (checkMean.existsError(mean)) {
-			throw new IllegalArgumentException();
+		if (checkMean.validate(mean)) {
+			throw new IllegalArgumentException("EnglishWordBeanクラス 英単語意味 入力値に異常値があります");
 		}
 		this.mean = mean;
 	}
@@ -130,13 +135,10 @@ public class EnglishWordBean {
 	 * @param updateTime
 	 *            String型 更新日時
 	 */
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Timestamp updateTime) {
 
-		if (!updateTime.matches("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{1,2}:\\d{1,2}\\.[0]")) {
-			throw new IllegalArgumentException();
-		}
-		updateTime = updateTime.substring(0, updateTime.length() - 2);
-		this.updateTime = updateTime;
+		this.updateTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(updateTime);
+		;
 	}
 
 }
