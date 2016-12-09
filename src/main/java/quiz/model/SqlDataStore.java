@@ -17,10 +17,31 @@ import java.util.ArrayList;
  */
 public class SqlDataStore implements DataStore {
 
+	/**
+	 * @接続するDB情報
+	 *
+	 * @DB名 EnglishWordQuiz
+	 * @テーブル名 EnglishWord
+	 *
+	 * @userID root
+	 * @password root
+	 *
+	 */
+
+	/** JDBCドライバ */
+	private final String driver = "com.mysql.jdbc.Driver";
+
+	/** 接続先DB */
+	private final String jdbc = "jdbc:mysql://localhost/englishwordquiz?autoReconnect=true&useSSL=false";
+	/** 接続ユーザー名 */
+	private final String user = "root";
+	/** 接続パスワード */
+	private final String pass = "root";
+
 	/** セッション */
-	Connection con = null;
+	private Connection con = null;
 	/** プリコンパイルされたSQL文 */
-	PreparedStatement ps = null;
+	private PreparedStatement ps = null;
 
 	/**
 	 * 【要求仕様 A】 DBに接続するメソッド
@@ -31,22 +52,10 @@ public class SqlDataStore implements DataStore {
 	public void open() throws Exception {
 
 		/* JDBCドライバをロード */
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName(driver);
 
 		/* DBに接続 */
-		con = DriverManager.getConnection("jdbc:mysql://localhost/englishwordquiz?autoReconnect=true&useSSL=false",
-				"root", "root");
-
-		/**
-		 * @接続するDB情報
-		 *
-		 * @DB名 EnglishWordQuiz
-		 * @テーブル名 EnglishWord
-		 *
-		 * @userID root
-		 * @password root
-		 *
-		 */
+		con = DriverManager.getConnection(jdbc, user, pass);
 
 	}
 
@@ -96,7 +105,7 @@ public class SqlDataStore implements DataStore {
 			bean.setWord(rs.getString("word"));
 			bean.setPart(Part.valueOf(rs.getString("part")));
 			bean.setMean(rs.getString("mean"));
-			bean.setUpdateTime(rs.getString("updated_at"));
+			bean.setUpdateTime(rs.getTimestamp("updated_at"));
 
 			allData.add(bean);
 		}
@@ -132,7 +141,7 @@ public class SqlDataStore implements DataStore {
 	 */
 	@Override
 	public void update(EnglishWordBean bean) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+		// TODO 【要求仕様 C】データ1件更新メソッド
 
 	}
 
@@ -146,7 +155,7 @@ public class SqlDataStore implements DataStore {
 	 */
 	@Override
 	public void delete(EnglishWordBean bean) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+		// TODO 【要求仕様 B】データ1件削除メソッド
 
 	}
 
@@ -161,8 +170,8 @@ public class SqlDataStore implements DataStore {
 	@Override
 	public EnglishWordBean searchWord(EnglishWordBean bean) throws Exception {
 
-		String sql = "select * from englishword where word like '" + bean.getWord() + "' "
-				+ "and mean like '%" + bean.getMean() + "%'  order by updated_at desc limit 1 ";
+		String sql = "select * from englishword where word like '" + bean.getWord() + "' " + "and mean like '%"
+				+ bean.getMean() + "%'  order by updated_at desc limit 1 ";
 
 		ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery(sql);
@@ -175,7 +184,7 @@ public class SqlDataStore implements DataStore {
 			searchBean.setWord(rs.getString("word"));
 			searchBean.setPart(Part.valueOf(rs.getString("part")));
 			searchBean.setMean(rs.getString("mean"));
-			searchBean.setUpdateTime(rs.getString("updated_at"));
+			searchBean.setUpdateTime(rs.getTimestamp("updated_at"));
 
 		}
 
@@ -204,7 +213,7 @@ public class SqlDataStore implements DataStore {
 			randomBean.setWord(rs.getString("word"));
 			randomBean.setPart(Part.valueOf(rs.getString("part")));
 			randomBean.setMean(rs.getString("mean"));
-			randomBean.setUpdateTime(rs.getString("updated_at"));
+			randomBean.setUpdateTime(rs.getTimestamp("updated_at"));
 
 		}
 
