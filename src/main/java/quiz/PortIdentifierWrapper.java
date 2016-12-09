@@ -23,7 +23,9 @@ public class PortIdentifierWrapper {
 	 *            ユーザーが指定したCOMポート番号
 	 * @return ユーザー指定値で開いたCommPortインスタンス
 	 * @throws NoSuchPortException
+	 *             指定したポートが存在しない場合にスローする
 	 * @throws PortInUseException
+	 *             指定したポートが既に使われている場合にスローする
 	 */
 	static CommPort getCommPort(String commPort) throws NoSuchPortException, PortInUseException {
 		return CommPortIdentifier.getPortIdentifier(commPort).open("Arduino Uno", 2000);
