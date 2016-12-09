@@ -22,6 +22,8 @@ public class SendSerialData implements OutPut {
 	private String message;
 	/** シリアルポート */
 	private SerialPort port = null;
+	/** ボーレート */
+	private final int baudrate = 9600;
 
 	/**
 	 * 使用するCOMポートを取得するメソッド
@@ -37,7 +39,7 @@ public class SendSerialData implements OutPut {
 
 		CommPort cm = PortIdentifierWrapper.getCommPort(commPort);
 		port = (SerialPort) cm;
-		port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+		port.setSerialPortParams(baudrate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 		port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 
 	}
