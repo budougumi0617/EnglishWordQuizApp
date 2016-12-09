@@ -7,6 +7,9 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -223,8 +226,12 @@ public class EnglishWordBeanTest {
 	@Test
 	public void testGetUpdateTime() {
 		try {
-			ewb.setUpdateTime("2016-12-06 04:37:22.0");
-			assertThat(ewb.getUpdateTime(), is("2016-12-06 04:37:22"));
+			Timestamp timestamp = new Timestamp(new Date().getTime());
+
+			String time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(timestamp);
+
+			ewb.setUpdateTime(timestamp);
+			assertThat(ewb.getUpdateTime(), is(time));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
@@ -238,33 +245,19 @@ public class EnglishWordBeanTest {
 	@Test
 	public void testSetUpdateTime() {
 		try {
+
+			Timestamp timestamp = new Timestamp(new Date().getTime());
+
+			String time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(timestamp);
+
 			field = EnglishWordBean.class.getDeclaredField("updateTime");
 			field.setAccessible(true);
 
-			ewb.setUpdateTime("2016-12-06 04:07:22.0");
-			assertThat((String) field.get(ewb), is("2016-12-06 04:07:22"));
+			ewb.setUpdateTime(timestamp);
+			assertThat((String) field.get(ewb), is(time));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
-	}
-
-	/**
-	 * 異常系テスト {@link quiz.model.EnglishWordBean#setUpdateTime()}
-	 *
-	 * @note 引数で受け取った値が異常値の際IllegalArgumentExceptionを返すか判定する
-	 */
-	@Test
-	public void testSetUpdateTimeError() {
-		try {
-			field = EnglishWordBean.class.getDeclaredField("updateTime");
-			field.setAccessible(true);
-
-			ewb.setUpdateTime("はじいてね");
-			fail();
-		} catch (Exception ex) {
-			assertThat(ex, instanceOf(IllegalArgumentException.class));
-		}
-
 	}
 
 }
