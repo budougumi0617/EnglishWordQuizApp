@@ -22,17 +22,14 @@ public class CheckMean implements CheckInput {
 	 * @return Boolean型 異常値が入力された場合trueを返す
 	 */
 	@Override
-	public Boolean existsError(String mean) {
+	public Boolean validate(String mean) {
 
 		/* 半角スペース・全角スペース・タブスペースのみの入力でないか判定するために""へ置換する */
 		String noEmptyMean = mean.replaceAll(" ", "");
 		noEmptyMean = noEmptyMean.replaceAll("	", "");
 		noEmptyMean = noEmptyMean.replaceAll("　", "");
 
-		if (mean.length() > MAX_LENGTH || noEmptyMean.equals("")) {
-			return true;
-		}
-		return false;
+		return  (mean.length() > MAX_LENGTH || noEmptyMean.equals(""));
 	}
 
 }

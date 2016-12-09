@@ -41,71 +41,71 @@ public class CheckMeanTest {
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckMean#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 255文字以下
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test1() {
-		assertThat(cm.existsError("確認する"), is(false));
+	public void testNoSpace() {
+		assertThat(cm.validate("確認する"), is(false));
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckMean#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 255文字
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test2() {
+	public void testNoSpaceMaxLength() {
 
 		String notOverSize = "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお";
 
-		assertThat(cm.existsError(notOverSize), is(false));
+		assertThat(cm.validate(notOverSize), is(false));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckMean#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 256文字
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test3() {
+	public void testNoSpaceOverMaxLength() {
 
 		String overSize = "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお" + "a";
 
-		assertThat(cm.existsError(overSize), is(true));
+		assertThat(cm.validate(overSize), is(true));
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckMean#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角スペース、全角スペース、タブスペースを含む文字列
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test4() {
+	public void testIncludeSpace() {
 
-		assertThat(cm.existsError("あい う　え	お"), is(false));
+		assertThat(cm.validate("あい う　え	お"), is(false));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckMean#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角スペース、全角スペース、タブスペースのみの文字列
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test5() {
-		assertThat(cm.existsError("   　　　		"), is(true));
+	public void testOnrySpace() {
+		assertThat(cm.validate("   　　　		"), is(true));
 	}
 
 }

@@ -18,6 +18,6 @@ public interface CheckInput {
 	 *            ユーザー入力値
 	 * @return Boolean型 異常値が入力された場合trueを返す
 	 */
-	Boolean existsError(String input);
+	Boolean validate(String input);
 
 }

@@ -22,12 +22,10 @@ public class CheckWord implements CheckInput {
 	 * @return Boolean型 異常値が入力された場合trueを返す
 	 */
 	@Override
-	public Boolean existsError(String word) {
+	public Boolean validate(String word) {
 
-		if (word.length() > MAX_LENGTH || !word.matches("^[a-zA-Z]*$") || word.equals("")) {
-			return true;
-		}
-		return false;
+		return (word.length() > MAX_LENGTH || !word.matches("^[a-zA-Z]*$") || word.equals(""));
+
 	}
 
 }

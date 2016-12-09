@@ -41,124 +41,124 @@ public class CheckWordTest {
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角小文字 英字
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test1() {
-		assertThat(cw.existsError("one"), is(false));
+	public void testHalfLowerAlphabet() {
+		assertThat(cw.validate("one"), is(false));
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角大文字 英字
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test2() {
-		assertThat(cw.existsError("TWO"), is(false));
+	public void testHalfUpperAlpha() {
+		assertThat(cw.validate("TWO"), is(false));
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角大文字小文字混合 英字
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test3() {
-		assertThat(cw.existsError("tHRee"), is(false));
+	public void testHalfMixAlphabet() {
+		assertThat(cw.validate("tHRee"), is(false));
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角英字 16文字
 	 * @note 期待戻り値 false
 	 */
 	@Test
-	public void test4() {
-		assertThat(cw.existsError("fourfourfourfour"), is(false));
+	public void testMaxLength() {
+		assertThat(cw.validate("fourfourfourfour"), is(false));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角英字 17文字
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test5() {
-		assertThat(cw.existsError("fivefivefivefivef"), is(true));
+	public void testOverMaxLength() {
+		assertThat(cw.validate("fivefivefivefivef"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角英字 半角スペース混合
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test6() {
-		assertThat(cw.existsError("si x"), is(true));
+	public void testIncludeHalfSpace() {
+		assertThat(cw.validate("si x"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角英字 全角スペース混合
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test7() {
-		assertThat(cw.existsError("seve　n"), is(true));
+	public void testIncludeFullSpace() {
+		assertThat(cw.validate("seve　n"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角英字 タブスペース混合
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test8() {
-		assertThat(cw.existsError("eigh		t"), is(true));
+	public void testIncludeTabSpace() {
+		assertThat(cw.validate("eigh		t"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 全角英字
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test9() {
-		assertThat(cw.existsError("ｎｉｎｅ"), is(true));
+	public void testFullAlphabet() {
+		assertThat(cw.validate("ｎｉｎｅ"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 ひらがなカタカナ漢字
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test10() {
-		assertThat(cw.existsError("じゅうジュウ十"), is(true));
+	public void testIncludeJapaneseLang() {
+		assertThat(cw.validate("じゅうジュウ十"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckWord#existsError(java.lang.String)}
+	 * 異常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
 	 *
 	 * @note 引数 未入力
 	 * @note 期待戻り値 true
 	 */
 	@Test
-	public void test11() {
-		assertThat(cw.existsError(""), is(true));
+	public void testNotEntered() {
+		assertThat(cw.validate(""), is(true));
 	}
 
 }
