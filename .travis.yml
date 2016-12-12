@@ -7,7 +7,7 @@ jdk:
 - oraclejdk8
 
 before_script:
-  - mysql -u root -e 'create database test5;'
+  - mysql -u root -e 'create database test;'
   - mysql -u root test < tables.sql
 
 after_success:
