@@ -1,3 +1,5 @@
+.travis.yml:
+
 language: java
 sudo: false
 
@@ -8,6 +10,8 @@ before_script:
   - npm install
   - mysql -u root -e 'create database test;'
   - mysql -u root test < tables.sql
+
+script:
 
 after_success:
 - ./gradlew jacocoTestReport coveralls
