@@ -4,6 +4,11 @@ sudo: false
 jdk:
 - oraclejdk8
 
+before_script:
+  - npm install
+  - mysql -u root -e 'create database test;'
+  - mysql -u root test < tables.sql
+
 after_success:
 - ./gradlew jacocoTestReport coveralls
 
