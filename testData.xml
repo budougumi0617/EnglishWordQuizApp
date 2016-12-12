@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<englishword id="1" word="apple" part="名詞" mean="りんご"
+		updated_at="2016-12-12 10:22:13.0" />
+	<englishword id="2" word="orange" part="名詞" mean="みかん"
+		updated_at="2016-12-12 10:22:49.0" />
+	<englishword id="3" word="cat" part="名詞" mean="ねこ"
+		updated_at="2016-12-12 10:23:04.0" />
+	<englishword id="4" word="dog" part="名詞" mean="犬"
+		updated_at="2016-12-12 10:23:20.0" />
+</dataset>
