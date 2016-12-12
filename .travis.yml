@@ -7,7 +7,7 @@ jdk:
 - oraclejdk8
 
 before_script:
-  - npm install
+  - npm init
   - mysql -u root -e 'create database test;'
   - mysql -u root test < tables.sql
 
