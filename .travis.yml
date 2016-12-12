@@ -1,12 +1,13 @@
 .travis.yml:
 
 language: java
-sudo: false
+sudo: true # Required by update MySQL.
 
 jdk:
 - oraclejdk8
 
 before_script:
+  - bash .travis.install-mysql-5.7.sh
   - mysql -u root -e 'create database test;'
   - mysql -u root test < tables.sql
 
