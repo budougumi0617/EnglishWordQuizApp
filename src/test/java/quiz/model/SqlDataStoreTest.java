@@ -191,7 +191,7 @@ public class SqlDataStoreTest {
 			bean.setPart(Part.getPart("名詞"));
 			bean.setMean("サッカー");
 
-//			sds.insert(bean);
+			sds.insert(bean);
 
 		} catch (Exception e) {
 			fail(e.getMessage());
