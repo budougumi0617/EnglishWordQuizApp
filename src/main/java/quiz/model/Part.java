@@ -36,7 +36,7 @@ public enum Part {
 				return part;
 			}
 		}
-		return noun;
+		return null;
 	}
 
 }
