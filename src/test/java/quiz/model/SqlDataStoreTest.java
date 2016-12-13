@@ -28,7 +28,7 @@ import org.junit.Test;
 
 public class SqlDataStoreTest {
 
-	/** SqlDataStoreクラスのpasswordリフレクション */
+	/** SqlDataStoreクラスのconnection先のリフレクション */
 	private java.lang.reflect.Field jdbc;
 
 	/** SqlDataStoreクラスのpasswordリフレクション */
@@ -57,17 +57,17 @@ public class SqlDataStoreTest {
 		sds = new SqlDataStore();
 		java.sql.Connection connection = getConnection();
 
-		/** SqlDataStoreのConnectionの書き換え */
+		/** SqlDataStoreのConnection先の書き換え */
 		jdbc = SqlDataStore.class.getDeclaredField("jdbc");
 		jdbc.setAccessible(true);
 		jdbc.set(sds, "jdbc:mysql://localhost/test");
 
-		/** SqlDataStoreのConnectionの書き換え */
+		/** SqlDataStoreのpasswordの書き換え */
 		pass = SqlDataStore.class.getDeclaredField("pass");
 		pass.setAccessible(true);
 		pass.set(sds, "");
 
-		/** SqlDataStoreのpasswordの書き換え */
+		/** SqlDataStoreのConnectionの書き換え */
 		con = SqlDataStore.class.getDeclaredField("con");
 		con.setAccessible(true);
 		con.set(sds, connection);
@@ -133,6 +133,7 @@ public class SqlDataStoreTest {
 	public void testOpen() {
 
 		try {
+			sds.close();
 			sds.open();
 			sds.close();
 
@@ -150,6 +151,7 @@ public class SqlDataStoreTest {
 	public void testClose() {
 
 		try {
+			sds.close();
 			sds.open();
 			sds.close();
 

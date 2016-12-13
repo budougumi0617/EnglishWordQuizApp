@@ -32,7 +32,7 @@ public enum Part {
     public static Part getPart(String input) {
         Part[] parts = Part.values();
         for (Part part : parts) {
-            if ((part.toString()).matches(input)) {
+            if (part.toString().equals(input)) {
                 return part;
             }
         }
