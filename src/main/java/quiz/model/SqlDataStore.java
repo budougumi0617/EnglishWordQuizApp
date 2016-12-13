@@ -103,7 +103,7 @@ public class SqlDataStore implements DataStore {
 
 			bean.setId(rs.getInt("id"));
 			bean.setWord(rs.getString("word"));
-			bean.setPart(Part.valueOf(rs.getString("part")));
+			bean.setPart(Part.getPart(rs.getString("part")));
 			bean.setMean(rs.getString("mean"));
 			bean.setUpdateTime(rs.getTimestamp("updated_at"));
 
@@ -182,7 +182,7 @@ public class SqlDataStore implements DataStore {
 		if (rs.next()) {
 			searchBean.setId(rs.getInt("id"));
 			searchBean.setWord(rs.getString("word"));
-			searchBean.setPart(Part.valueOf(rs.getString("part")));
+			searchBean.setPart(Part.getPart(rs.getString("part")));
 			searchBean.setMean(rs.getString("mean"));
 			searchBean.setUpdateTime(rs.getTimestamp("updated_at"));
 
@@ -211,7 +211,7 @@ public class SqlDataStore implements DataStore {
 		if (rs.next()) {
 			randomBean.setId(rs.getInt("id"));
 			randomBean.setWord(rs.getString("word"));
-			randomBean.setPart(Part.valueOf(rs.getString("part")));
+			randomBean.setPart(Part.getPart(rs.getString("part")));
 			randomBean.setMean(rs.getString("mean"));
 			randomBean.setUpdateTime(rs.getTimestamp("updated_at"));
 

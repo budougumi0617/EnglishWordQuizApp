@@ -139,9 +139,9 @@ public class EnglishWordBeanTest {
 	@Test
 	public void testGetPart() {
 		try {
-			Part part = Part.valueOf("名詞");
+			Part part = Part.getPart("名詞");
 			ewb.setPart(part);
-			assertThat(ewb.getPart(), is(Part.valueOf("名詞")));
+			assertThat(ewb.getPart(), is(Part.getPart("名詞")));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
@@ -158,9 +158,9 @@ public class EnglishWordBeanTest {
 			field = EnglishWordBean.class.getDeclaredField("part");
 			field.setAccessible(true);
 
-			Part part = Part.valueOf("動詞");
+			Part part = Part.getPart("動詞");
 			ewb.setPart(part);
-			assertThat((Part) field.get(ewb), is(Part.valueOf("動詞")));
+			assertThat((Part) field.get(ewb), is(Part.getPart("動詞")));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}

@@ -162,7 +162,7 @@ public class SqlDataStoreTest {
 			assertThat(list.size(), is(4));
 			assertThat(list.get(3).getId(), is(4));
 			assertThat(list.get(0).getWord(), is("apple"));
-			assertThat(list.get(2).getPart(), is(Part.valueOf("名詞")));
+			assertThat(list.get(2).getPart(), is(Part.getPart("名詞")));
 			assertThat(list.get(1).getUpdateTime(), is("2016/12/12 10:22:49"));
 
 		} catch (Exception e) {
@@ -181,14 +181,14 @@ public class SqlDataStoreTest {
 			EnglishWordBean bean = new EnglishWordBean();
 
 			bean.setWord("soccer");
-			bean.setPart(Part.valueOf("名詞"));
+			bean.setPart(Part.getPart("名詞"));
 			bean.setMean("サッカー");
 
 			sds.insert(bean);
 
 			ArrayList<EnglishWordBean> list = sds.getAll();
 			assertThat(list.get(list.size() - 1).getWord(), is("soccer"));
-			assertThat(list.get(list.size() - 1).getPart(), is(Part.valueOf("名詞")));
+			assertThat(list.get(list.size() - 1).getPart(), is(Part.getPart("名詞")));
 			assertThat(list.get(list.size() - 1).getMean(), is("サッカー"));
 
 		} catch (Exception e) {
