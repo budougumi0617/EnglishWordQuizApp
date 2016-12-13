@@ -193,8 +193,6 @@ public class SqlDataStoreTest {
 
 			sds.insert(bean);
 
-			assertNotNull(sds.searchWord(bean));
-
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
