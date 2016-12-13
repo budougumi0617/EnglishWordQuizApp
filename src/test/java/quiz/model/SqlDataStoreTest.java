@@ -100,7 +100,7 @@ public class SqlDataStoreTest {
 	 */
 	public static java.sql.Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
+		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", "");
 	}
 
 	/**
