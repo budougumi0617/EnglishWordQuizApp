@@ -32,7 +32,7 @@ public class SqlDataStore implements DataStore {
 	private final String driver = "com.mysql.jdbc.Driver";
 
 	/** 接続先DB */
-	private final String jdbc = "jdbc:mysql://localhost/englishwordquiz?autoReconnect=true&useSSL=false";
+	private final String jdbc = "jdbc:mysql://localhost/englishwordquiz";
 	/** 接続ユーザー名 */
 	private final String user = "root";
 	/** 接続パスワード */
