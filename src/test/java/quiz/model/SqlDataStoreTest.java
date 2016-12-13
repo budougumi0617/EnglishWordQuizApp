@@ -28,17 +28,20 @@ import org.junit.Test;
 
 public class SqlDataStoreTest {
 
-	/** Connectionnクラスのリフレクション */
-	private java.lang.reflect.Field con;
+	/** SqlDataStoreクラスのpasswordリフレクション */
+	private java.lang.reflect.Field jdbc;
 
 	/** SqlDataStoreクラスのpasswordリフレクション */
 	private java.lang.reflect.Field pass;
 
-//	/** DBUnitテスト用Connection */
-//	private IDatabaseConnection dbconn;
-//
-//	/** テストデータバックアップファイル */
-//	private File file;
+	/** Connectionnクラスのリフレクション */
+	private java.lang.reflect.Field con;
+
+	// /** DBUnitテスト用Connection */
+	// private IDatabaseConnection dbconn;
+	//
+	// /** テストデータバックアップファイル */
+	// private File file;
 
 	/** テスト対象MySQLデータストアクラス */
 	private SqlDataStore sds;
@@ -53,6 +56,11 @@ public class SqlDataStoreTest {
 
 		sds = new SqlDataStore();
 		java.sql.Connection connection = getConnection();
+
+		/** SqlDataStoreのConnectionの書き換え */
+		jdbc = SqlDataStore.class.getDeclaredField("jdbc");
+		jdbc.setAccessible(true);
+		jdbc.set(sds, "jdbc:mysql://localhost/test");
 
 		/** SqlDataStoreのConnectionの書き換え */
 		pass = SqlDataStore.class.getDeclaredField("pass");
@@ -187,10 +195,7 @@ public class SqlDataStoreTest {
 
 			sds.insert(bean);
 
-			ArrayList<EnglishWordBean> list = sds.getAll();
-			assertThat(list.get(list.size() - 1).getWord(), is("soccer"));
-			assertThat(list.get(list.size() - 1).getPart(), is(Part.getPart("名詞")));
-			assertThat(list.get(list.size() - 1).getMean(), is("サッカー"));
+			assertNotNull(sds.searchWord(bean));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
