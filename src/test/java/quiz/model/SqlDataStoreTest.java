@@ -56,14 +56,15 @@ public class SqlDataStoreTest {
 	public void setUp() throws Exception {
 
 		sds = new SqlDataStore();
+		java.sql.Connection connection = getConnection();
 
 		/** SqlDataStoreのConnectionの書き換え */
 		con = SqlDataStore.class.getDeclaredField("con");
 		con.setAccessible(true);
-		con.set(sds, getConnection());
+		con.set(sds, connection);
 
 		/** DBコンフィグ設定 */
-		IDatabaseConnection dbconn = new DatabaseConnection(getConnection());
+		IDatabaseConnection dbconn = new DatabaseConnection(connection);
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
@@ -89,7 +90,7 @@ public class SqlDataStoreTest {
 	 */
 	public static java.sql.Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "root");
+		return DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 	}
 
 	/**
@@ -123,6 +124,7 @@ public class SqlDataStoreTest {
 
 		try {
 			sds.open();
+			sds.close();
 
 		} catch (Exception e) {
 			fail(e.getMessage());
