@@ -5,8 +5,8 @@ package quiz.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +41,7 @@ public class SqlDataStore implements DataStore {
 	/** セッション */
 	private Connection con = null;
 	/** プリコンパイルされたSQL文 */
-	private PreparedStatement ps = null;
+	private Statement ps = null;
 
 	/**
 	 * 【要求仕様 A】 DBに接続するメソッド
@@ -123,10 +123,10 @@ public class SqlDataStore implements DataStore {
 	 */
 	@Override
 	public void insert(EnglishWordBean bean) throws Exception {
-		String sql = "insert into englishword set word = '" + bean.getWord() + "' , part = '" + bean.getPart().toString()
-				+ "'  , mean = '" + bean.getMean() + "'";
+		String sql = "insert into englishword set word = '" + bean.getWord() + "' , part = '"
+				+ bean.getPart().toString() + "'  , mean = '" + bean.getMean() + "'";
 
-		ps = con.prepareStatement(sql);
+		ps = con.createStatement();
 		ps.executeUpdate(sql);
 
 	}
