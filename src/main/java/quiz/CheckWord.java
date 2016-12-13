@@ -20,9 +20,7 @@ public class CheckWord implements CheckInput {
 	 */
 	@Override
 	public Boolean validate(String word) {
-
 		return (word == null || !word.matches("^[a-zA-Z]{1,16}$"));
-
 	}
 
 }

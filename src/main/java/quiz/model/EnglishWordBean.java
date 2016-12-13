@@ -80,7 +80,7 @@ public class EnglishWordBean {
 	/**
 	 * 品詞のゲッターメソッド
 	 *
-	 * @return part Int型 品詞
+	 * @return part Part列挙型 品詞
 	 */
 	public Part getPart() {
 		return part;
@@ -92,7 +92,10 @@ public class EnglishWordBean {
 	 * @param part
 	 *            Part列挙型 品詞
 	 */
-	public void setPart(Part part) {
+	public void setPart(Part part) throws IllegalArgumentException {
+		if (part == null) {
+			throw new IllegalArgumentException("EnglishWordBeanクラス 品詞 入力値に異常値があります");
+		}
 		this.part = part;
 	}
 

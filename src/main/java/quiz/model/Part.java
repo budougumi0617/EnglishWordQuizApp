@@ -29,6 +29,13 @@ public enum Part {
 		return name;
 	}
 
+	/**
+	 * 品詞名に一致するPart変数を返す
+	 *
+	 * @param input
+	 *            入力された品詞名
+	 * @return 入力値に一致するPart変数、該当しなかった場合はnullを返す
+	 */
 	public static Part getPart(String input) {
 		Part[] parts = Part.values();
 		for (Part part : parts) {
