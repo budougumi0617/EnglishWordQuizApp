@@ -14,10 +14,7 @@ import java.util.ArrayList;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
-import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -65,16 +62,17 @@ public class SqlDataStoreTest {
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-//		/** テストデータバックアップ */
-//		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
-//
-//		partialDataSet.addTable("englishword");
-//		file = File.createTempFile("escape", ".xml");
-//		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
-//
-//		/** XmlテストデータをテストDBに入れる */
-//		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
-//		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+		// /** テストデータバックアップ */
+		// QueryDataSet partialDataSet = new QueryDataSet(dbconn);
+		//
+		// partialDataSet.addTable("englishword");
+		// file = File.createTempFile("escape", ".xml");
+		// FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
+		//
+		// /** XmlテストデータをテストDBに入れる */
+		// IDataSet dataset = new FlatXmlDataSetBuilder().build(new
+		// File("testData.xml"));
+		// DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 	}
 
@@ -98,11 +96,11 @@ public class SqlDataStoreTest {
 	@After
 	public void tearDown() throws Exception {
 
-		dbconn = new DatabaseConnection(getConnection());
-
-		/** テストデータを入れる */
-		IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
-		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+		// dbconn = new DatabaseConnection(getConnection());
+		//
+		// /** テストデータを入れる */
+		// IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
+		// DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 		if (con != null) {
 			sds.close();
