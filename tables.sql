@@ -6,3 +6,8 @@ mean char(255) not null,
 created_at timestamp not null default current_timestamp,
 updated_at timestamp not null default current_timestamp on update current_timestamp
 ) default charset=utf8; /* Need to define charset expressly if you want to use Japanese in SQL statements on Linux. */
+
+insert into englishword set word = 'apple' , part = '名詞' , mean = 'りんご';
+insert into englishword set word = 'orange' , part = '名詞' , mean = 'みかん';
+insert into englishword set word = 'cat' , part = '名詞' , mean = 'ねこ';
+insert into englishword set word = 'dog' , part = '名詞' , mean = '犬';

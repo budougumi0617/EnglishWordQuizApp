@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,9 +14,7 @@ import java.util.ArrayList;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.database.QueryDataSet;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
@@ -68,16 +65,16 @@ public class SqlDataStoreTest {
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-		/** テストデータバックアップ */
-		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
-
-		partialDataSet.addTable("englishword");
-		file = File.createTempFile("escape", ".xml");
-		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
-
-		/** XmlテストデータをテストDBに入れる */
-		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
-		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+//		/** テストデータバックアップ */
+//		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
+//
+//		partialDataSet.addTable("englishword");
+//		file = File.createTempFile("escape", ".xml");
+//		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
+//
+//		/** XmlテストデータをテストDBに入れる */
+//		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
+//		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 	}
 
