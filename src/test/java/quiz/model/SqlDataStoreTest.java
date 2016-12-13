@@ -6,7 +6,6 @@ package quiz.model;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,11 +31,14 @@ public class SqlDataStoreTest {
 	/** Connectionnクラスのリフレクション */
 	private java.lang.reflect.Field con;
 
-	/** DBUnitテスト用Connection */
-	private IDatabaseConnection dbconn;
+	/** SqlDataStoreクラスのpasswordリフレクション */
+	private java.lang.reflect.Field pass;
 
-	/** テストデータバックアップファイル */
-	private File file;
+//	/** DBUnitテスト用Connection */
+//	private IDatabaseConnection dbconn;
+//
+//	/** テストデータバックアップファイル */
+//	private File file;
 
 	/** テスト対象MySQLデータストアクラス */
 	private SqlDataStore sds;
@@ -53,6 +55,11 @@ public class SqlDataStoreTest {
 		java.sql.Connection connection = getConnection();
 
 		/** SqlDataStoreのConnectionの書き換え */
+		pass = SqlDataStore.class.getDeclaredField("pass");
+		pass.setAccessible(true);
+		pass.set(sds, "");
+
+		/** SqlDataStoreのpasswordの書き換え */
 		con = SqlDataStore.class.getDeclaredField("con");
 		con.setAccessible(true);
 		con.set(sds, connection);
@@ -158,7 +165,6 @@ public class SqlDataStoreTest {
 			assertThat(list.get(3).getId(), is(4));
 			assertThat(list.get(0).getWord(), is("apple"));
 			assertThat(list.get(2).getPart(), is(Part.getPart("名詞")));
-			assertThat(list.get(1).getUpdateTime(), is("2016/12/12 10:22:49"));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
