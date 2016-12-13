@@ -152,8 +152,6 @@ public class SqlDataStoreTest {
 
 		try {
 			sds.close();
-			sds.open();
-			sds.close();
 
 		} catch (Exception e) {
 			fail(e.getMessage());

@@ -29,14 +29,14 @@ public enum Part {
 		return name;
 	}
 
-    public static Part getPart(String input) {
-        Part[] parts = Part.values();
-        for (Part part : parts) {
-            if (part.toString().equals(input)) {
-                return part;
-            }
-        }
-        return null;
-    }
+	public static Part getPart(String input) {
+		Part[] parts = Part.values();
+		for (Part part : parts) {
+			if (part.toString().equals(input)) {
+				return part;
+			}
+		}
+		return null;
+	}
 
 }

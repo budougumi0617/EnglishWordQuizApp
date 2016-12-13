@@ -123,7 +123,7 @@ public class SqlDataStore implements DataStore {
 	 */
 	@Override
 	public void insert(EnglishWordBean bean) throws Exception {
-		String sql = "insert englishword set word = '" + bean.getWord() + "' , part = '" + bean.getPart().toString()
+		String sql = "insert into englishword set word = '" + bean.getWord() + "' , part = '" + bean.getPart().toString()
 				+ "'  , mean = '" + bean.getMean() + "'";
 
 		ps = con.prepareStatement(sql);
