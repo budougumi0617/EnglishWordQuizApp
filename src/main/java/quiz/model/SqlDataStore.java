@@ -216,9 +216,10 @@ public class SqlDataStore implements DataStore {
 			randomBean.setMean(rs.getString("mean"));
 			randomBean.setUpdateTime(rs.getTimestamp("updated_at"));
 
+			return randomBean;
 		}
 
-		return randomBean;
+		return null;
 	}
 
 }
