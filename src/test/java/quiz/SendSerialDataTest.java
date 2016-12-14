@@ -88,7 +88,8 @@ public class SendSerialDataTest {
 	public void testOpen() {
 		try {
 
-			ssd.setMessage("hello");
+			ssd.setResultMessage("correct!");
+			ssd.setAnswerWord("goodbye");
 			ssd.setCommPort("COM1");
 
 			/* CommPortIdentifierのstaticメソッドを呼び出すためにMock化する */
@@ -118,7 +119,8 @@ public class SendSerialDataTest {
 	@Test
 	public void testStream() {
 		try {
-			ssd.setMessage("hello");
+			ssd.setResultMessage("correct!");
+			ssd.setAnswerWord("goodbye");
 			ssd.setCommPort("COM1");
 
 			when(mockSerialPort.getOutputStream()).thenReturn(mockOutputStream);
@@ -138,7 +140,8 @@ public class SendSerialDataTest {
 	@Test
 	public void testClose() {
 		try {
-			ssd.setMessage("hello");
+			ssd.setResultMessage("correct!");
+			ssd.setAnswerWord("goodbye");
 			ssd.setCommPort("COM1");
 
 			ssd.close();
@@ -167,18 +170,36 @@ public class SendSerialDataTest {
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.SendSerialData#setMessage()}
+	 * 正常系テスト {@link quiz.SendSerialData#setResultMessage(String)}
 	 *
 	 * @note 引数で受け取った値をメンバにセットできるか判定する
 	 */
 	@Test
-	public void testSetMessage() {
+	public void testSetResultMessage() {
 		try {
-			field = SendSerialData.class.getDeclaredField("message");
+			field = SendSerialData.class.getDeclaredField("result");
 			field.setAccessible(true);
 
-			ssd.setMessage("hello");
-			assertThat((String) field.get(ssd), is("hello"));
+			ssd.setResultMessage("correct!");
+			assertThat((String) field.get(ssd), is("correct!"));
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+	}
+
+	/**
+	 * 正常系テスト {@link quiz.SendSerialData#setAnswerWord(String)}
+	 *
+	 * @note 引数で受け取った値をメンバにセットできるか判定する
+	 */
+	@Test
+	public void testSetAnswerWord() {
+		try {
+			field = SendSerialData.class.getDeclaredField("answer");
+			field.setAccessible(true);
+
+			ssd.setAnswerWord("goodbye");
+			assertThat((String) field.get(ssd), is("goodbye"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}

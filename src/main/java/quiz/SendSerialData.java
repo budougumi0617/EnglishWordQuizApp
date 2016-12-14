@@ -18,8 +18,10 @@ public class SendSerialData implements OutPut {
 
 	/** String型 COMポート番号 */
 	private String commPort;
-	/** String型 送信する文字列データ */
-	private String message;
+	/** String型 送信する正誤結果文字列データ */
+	private String result;
+	/** String型 送信する解答英単語文字列データ */
+	private String answer;
 	/** シリアルポート */
 	private SerialPort port = null;
 	/** ボーレート */
@@ -58,9 +60,17 @@ public class SendSerialData implements OutPut {
 		OutputStream out = port.getOutputStream();
 		Thread.sleep(2000); // LCDパネル表示のための固定数値とする
 
-		for (int i = 0; i < message.length(); i++) {
-			out.write(message.charAt(i));
+		for (int i = 0; i < result.length(); i++) {
+			out.write(result.charAt(i));
 		}
+
+		out.write(0x0a);
+
+		for (int i = 0; i < answer.length(); i++) {
+			out.write(answer.charAt(i));
+		}
+
+		out.write(0x00);
 
 		out.close();
 	}
@@ -89,13 +99,23 @@ public class SendSerialData implements OutPut {
 	}
 
 	/**
-	 * 送信する文字列データのセッターメソッド
+	 * 送信する正誤結果文字列データのセッターメソッド
+	 *
+	 * @param result
+	 *            String型 正誤結果
+	 */
+	public void setResultMessage(String result) {
+		this.result = result;
+	}
+
+	/**
+	 * 送信する解答英単語文字列データのセッターメソッド
 	 *
 	 * @param message
-	 *            String型 入力文字列
+	 *            String型 解答の英単語
 	 */
-	public void setMessage(String message) {
-		this.message = message;
+	public void setAnswerWord(String answer) {
+		this.answer = answer;
 	}
 
 }
