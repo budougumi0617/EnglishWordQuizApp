@@ -60,16 +60,20 @@ public class SendSerialData implements OutPut {
 		OutputStream out = port.getOutputStream();
 		Thread.sleep(2000); // LCDパネル表示のための固定数値とする
 
+		/* 一行目に表示する答え合わせ結果を送る */
 		for (int i = 0; i < result.length(); i++) {
 			out.write(result.charAt(i));
 		}
 
+		/* Arduino側で改行を認識するため、改行文字の \n を送る */
 		out.write(0x0a);
 
+		/* 二行目に表示する答え合わせ結果を送る */
 		for (int i = 0; i < answer.length(); i++) {
 			out.write(answer.charAt(i));
 		}
 
+		/* Arduino側で文字列終端を認識するため、終端文字の \0 を送る */
 		out.write(0x00);
 
 		out.close();
