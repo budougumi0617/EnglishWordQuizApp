@@ -186,9 +186,10 @@ public class SqlDataStore implements DataStore {
 			searchBean.setMean(rs.getString("mean"));
 			searchBean.setUpdateTime(rs.getTimestamp("updated_at"));
 
+			return searchBean;
 		}
 
-		return searchBean;
+		return null;
 	}
 
 	/**
