@@ -172,5 +172,16 @@ public class CheckWordTest {
 		assertThat(cw.validate(null), is(true));
 	}
 
+	/**
+	 * 正常系テスト {@link quiz.CheckWord#validate(java.lang.String)}
+	 *
+	 * @note 引数 ワイルドカード%
+	 * @note 期待戻り値 false
+	 */
+	@Test
+	public void testWildCard() {
+		assertThat(cw.validate("%"), is(false));
+	}
+
 
 }
