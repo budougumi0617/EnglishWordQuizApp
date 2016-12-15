@@ -4,6 +4,7 @@
 package quiz.model;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * データストアインタフェース
@@ -105,5 +106,13 @@ public interface DataStore {
 	 * @note 全ての例外をthrowsする
 	 */
 	EnglishWordBean getRandom() throws Exception;
+
+	/**
+	 * Observerの追加 を行うメソッド
+	 *
+	 * @param o
+	 *            Ovserver
+	 */
+	void addObserver(Observer o);
 
 }

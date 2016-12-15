@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * MySQLデータベース接続クラス
@@ -15,7 +18,7 @@ import java.util.ArrayList;
  * @author Yuka Yoshikawa
  *
  */
-public class SqlDataStore implements DataStore {
+public class SqlDataStore extends Observable implements DataStore {
 
 	/**
 	 * @接続するDB情報
@@ -110,6 +113,9 @@ public class SqlDataStore implements DataStore {
 			allData.add(bean);
 		}
 
+		/** 更新順へソート */
+		allData.sort(Comparator.comparing(EnglishWordBean::getUpdateTime).reversed());
+
 		return allData;
 	}
 
@@ -128,6 +134,12 @@ public class SqlDataStore implements DataStore {
 
 		ps = con.createStatement();
 		ps.executeUpdate(sql);
+		System.out.println("obsever has " + this.countObservers());
+
+		/** 変更通知をObserverへ出す */
+		setChanged();
+		notifyObservers(getAll());
+		clearChanged();
 
 	}
 
@@ -142,7 +154,6 @@ public class SqlDataStore implements DataStore {
 	@Override
 	public void update(EnglishWordBean bean) throws Exception {
 		// TODO 【要求仕様 C】データ1件更新メソッド
-
 	}
 
 	/**
@@ -156,7 +167,6 @@ public class SqlDataStore implements DataStore {
 	@Override
 	public void delete(EnglishWordBean bean) throws Exception {
 		// TODO 【要求仕様 B】データ1件削除メソッド
-
 	}
 
 	/**
@@ -221,5 +231,12 @@ public class SqlDataStore implements DataStore {
 
 		return null;
 	}
+
+	/**
+	 * Observerの追加
+	 */
+	public void addObserver(Observer o) {
+		super.addObserver(o);
+	};
 
 }

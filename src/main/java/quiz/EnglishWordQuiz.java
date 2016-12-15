@@ -3,6 +3,10 @@
  */
 package quiz;
 
+import quiz.controller.Controller;
+import quiz.model.SqlDataStore;
+import quiz.view.MainFrame;
+
 /**
  * メインメソッドを持つクラス
  *
@@ -19,7 +23,7 @@ public class EnglishWordQuiz {
 	 */
 	public static void main(String[] args) {
 
-		// MainFrame frame = new MainFrame(new Controller (new SqlDataStore ));
+		MainFrame frame = new MainFrame(new Controller(new SqlDataStore()));
 
 	}
 
