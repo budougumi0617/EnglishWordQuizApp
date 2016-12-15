@@ -72,7 +72,7 @@ public class EnglishWordBean {
 	 */
 	public void setWord(String word) throws IllegalArgumentException {
 		if (checkWord.validate(word)) {
-			throw new IllegalArgumentException("EnglishWordBeanクラス 英単語 入力値に異常値があります");
+			throw new IllegalArgumentException("英単語の入力値に異常値があります。");
 		}
 		this.word = word;
 	}
@@ -94,7 +94,7 @@ public class EnglishWordBean {
 	 */
 	public void setPart(Part part) throws IllegalArgumentException {
 		if (part == null) {
-			throw new IllegalArgumentException("EnglishWordBeanクラス 品詞 入力値に異常値があります");
+			throw new IllegalArgumentException("品詞の入力値に異常値があります。");
 		}
 		this.part = part;
 	}
@@ -118,7 +118,7 @@ public class EnglishWordBean {
 	 */
 	public void setMean(String mean) throws IllegalArgumentException {
 		if (checkMean.validate(mean)) {
-			throw new IllegalArgumentException("EnglishWordBeanクラス 英単語意味 入力値に異常値があります");
+			throw new IllegalArgumentException("英単語意味の入力値に異常値があります。");
 		}
 		this.mean = mean;
 	}
