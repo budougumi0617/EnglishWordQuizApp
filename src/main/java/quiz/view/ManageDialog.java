@@ -140,7 +140,6 @@ public class ManageDialog extends JDialog implements Observer {
 	 */
 	@Override
 	public void update(java.util.Observable o, Object arg) {
-		System.out.println("");
 		setDataTable((ArrayList<EnglishWordBean>) arg);
 		repaint();
 	}

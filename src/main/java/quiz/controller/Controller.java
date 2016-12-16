@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
@@ -71,15 +72,14 @@ public class Controller {
 	public void btMakeQuizAction(ActionEvent ae) {
 
 		try {
-
 			JButton bt = null;
 			MainFrame mf = null;
 
 			if (ae.getSource() instanceof JButton) {
 				bt = (JButton) (ae.getSource());
 			}
-			if (bt.getParent() instanceof MainFrame) {
-				mf = (MainFrame) (bt.getParent());
+			if (SwingUtilities.getRoot(bt) instanceof MainFrame) {
+				mf = (MainFrame) (SwingUtilities.getRoot(bt));
 			}
 
 			data.open();
@@ -90,7 +90,7 @@ public class Controller {
 			ErrorDialog.showErrorDialog("DBアクセスエラーが発生しました。");
 
 		} catch (Exception e) {
-			ErrorDialog.showErrorDialog("エラーが発生しました。");
+			ErrorDialog.showErrorDialog("エラーが発生しました。" + e);
 		}
 	}
 
@@ -109,10 +109,9 @@ public class Controller {
 			if (ae.getSource() instanceof JButton) {
 				bt = (JButton) (ae.getSource());
 			}
-			if (bt.getParent() instanceof MainFrame) {
-				mf = (MainFrame) (bt.getParent());
+			if (SwingUtilities.getRoot(bt) instanceof MainFrame) {
+				mf = (MainFrame) (SwingUtilities.getRoot(bt));
 			}
-
 			mf.clearLabelText();
 			data.open();
 			manageDialog.showDialog(data.getAll());
@@ -141,10 +140,9 @@ public class Controller {
 			if (ae.getSource() instanceof JButton) {
 				bt = (JButton) (ae.getSource());
 			}
-			if (bt.getParent() instanceof MainFrame) {
-				mf = (MainFrame) (bt.getParent());
+			if (SwingUtilities.getRoot(bt) instanceof MainFrame) {
+				mf = (MainFrame) (SwingUtilities.getRoot(bt));
 			}
-
 			/** 検索対象データ取得 */
 			EnglishWordBean bean = mf.getBean();
 
@@ -245,9 +243,13 @@ public class Controller {
 		try {
 			addDialog.setVisible(false);
 
-			data.open();
-			data.insert(addDialog.getBean());
-			data.close();
+			if (data.searchWord(addDialog.getBean()) instanceof EnglishWordBean) {
+				ErrorDialog.showErrorDialog("入力データは既に登録されています");
+			} else {
+				data.open();
+				data.insert(addDialog.getBean());
+				data.close();
+			}
 
 		} catch (SQLException e) {
 			ErrorDialog.showErrorDialog("DBの接続に失敗しました。");

@@ -155,13 +155,7 @@ public class MainFrame extends JFrame {
 	 * @return bean EnglishWordBean 入力値データ
 	 */
 	public EnglishWordBean getBean() {
-
-		EnglishWordBean bean = new EnglishWordBean();
-
-		bean.setWord(tfAnswerBox.getText());
-		bean.setMean(tfQuizBox.getText());
-
-		return bean;
+		return new EnglishWordBean().setWord(tfAnswerBox.getText()).setMean(tfQuizBox.getText());
 
 	}
 

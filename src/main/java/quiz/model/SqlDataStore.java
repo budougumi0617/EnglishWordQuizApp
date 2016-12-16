@@ -113,11 +113,9 @@ public class SqlDataStore extends Observable implements DataStore {
 
 		/* データ格納 */
 		while (rs.next()) {
-			EnglishWordBean bean = new EnglishWordBean();
-			bean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1])).setPart(Part.getPart(rs.getString(col[2])))
-					.setMean(rs.getString(col[3])).setUpdateTime(rs.getTimestamp(col[4]));
-
-			allData.add(bean);
+			allData.add(new EnglishWordBean().setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
+					.setPart(Part.getPart(rs.getString(col[2]))).setMean(rs.getString(col[3]))
+					.setUpdateTime(rs.getTimestamp(col[4])));
 		}
 
 		return allData;
@@ -205,12 +203,9 @@ public class SqlDataStore extends Observable implements DataStore {
 
 		/* データ表示 */
 		if (rs.next()) {
-			EnglishWordBean searchBean = new EnglishWordBean();
-			searchBean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
+			return new EnglishWordBean().setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
 					.setPart(Part.getPart(rs.getString(col[2]))).setMean(rs.getString(col[3]))
 					.setUpdateTime(rs.getTimestamp(col[4]));
-
-			return searchBean;
 		}
 
 		return null;
@@ -234,12 +229,9 @@ public class SqlDataStore extends Observable implements DataStore {
 		ResultSet rs = ps.executeQuery(sql);
 
 		if (rs.next()) {
-			EnglishWordBean randomBean = new EnglishWordBean();
-			randomBean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
+			return new EnglishWordBean().setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
 					.setPart(Part.getPart(rs.getString(col[2]))).setMean(rs.getString(col[3]))
 					.setUpdateTime(rs.getTimestamp(col[4]));
-
-			return randomBean;
 		}
 
 		return null;

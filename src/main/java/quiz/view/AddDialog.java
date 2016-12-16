@@ -130,15 +130,8 @@ public class AddDialog extends JDialog {
 	 * @return bean EnglishWordBean 入力値データ
 	 */
 	public EnglishWordBean getBean() {
-
-		EnglishWordBean bean = new EnglishWordBean();
-
-		bean.setWord(tfWord.getText());
-		bean.setPart(Part.getPart(cbPart.getItemAt(cbPart.getSelectedIndex())));
-		bean.setMean(tfMean.getText());
-
-		return bean;
-
+		return new EnglishWordBean().setWord(tfWord.getText())
+				.setPart(Part.getPart(cbPart.getItemAt(cbPart.getSelectedIndex()))).setMean(tfMean.getText());
 	}
 
 }
