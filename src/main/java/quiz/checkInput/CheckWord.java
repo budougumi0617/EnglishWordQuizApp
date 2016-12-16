@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/06
  */
-package quiz;
+package quiz.checkInput;
 
 /**
  * 入力された英単語を判定するクラス

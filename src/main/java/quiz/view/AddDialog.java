@@ -10,12 +10,13 @@ import java.util.EnumSet;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import quiz.Enum.Part;
 import quiz.controller.Controller;
 import quiz.model.EnglishWordBean;
-import quiz.model.Part;
 
 /**
  * 英単語追加画面
@@ -48,6 +49,7 @@ public class AddDialog extends JDialog {
 		/** ダイアログ設定 */
 		setTitle("英単語 追加画面");
 		setBounds(200, 200, 586, 287);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
@@ -113,7 +115,7 @@ public class AddDialog extends JDialog {
 	/**
 	 * 画面を開くメソッド
 	 */
-	public void open() {
+	public void showDialog() {
 
 		tfWord.setText("");
 		cbPart.setSelectedIndex(0);

@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/06
  */
-package quiz;
+package quiz.checkInput;
 
 /**
  * 入力値判定インタフェース

@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/05
  */
-package quiz;
+package quiz.output;
 
 /**
  * 出力インタフェース
@@ -9,7 +9,7 @@ package quiz;
  * @author Yuka Yoshikawa
  *
  */
-public interface OutPut {
+public interface Output {
 
 	/**
 	 * 出力先を接続するメソッド

@@ -6,9 +6,10 @@ package quiz.model;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-import quiz.CheckInput;
-import quiz.CheckMean;
-import quiz.CheckWord;
+import quiz.Enum.Part;
+import quiz.checkInput.CheckInput;
+import quiz.checkInput.CheckMean;
+import quiz.checkInput.CheckWord;
 
 /**
  * レコードデータ格納クラス
@@ -48,9 +49,12 @@ public class EnglishWordBean {
 	 *
 	 * @param id
 	 *            String型 ID
+	 * @return this EnglishWordBean自インスタンス
+	 *
 	 */
-	public void setId(int id) {
+	public EnglishWordBean setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	/**
@@ -69,12 +73,15 @@ public class EnglishWordBean {
 	 *            String型 英単語
 	 * @throws IllegalArgumentException
 	 *             入力チェックで定義外引数が入力されたときにスローする
+	 * @return this EnglishWordBean自インスタンス *
 	 */
-	public void setWord(String word) throws IllegalArgumentException {
+	public EnglishWordBean setWord(String word) throws IllegalArgumentException {
 		if (checkWord.validate(word)) {
 			throw new IllegalArgumentException("英単語の入力値に異常値があります。");
 		}
 		this.word = word;
+
+		return this;
 	}
 
 	/**
@@ -91,12 +98,15 @@ public class EnglishWordBean {
 	 *
 	 * @param part
 	 *            Part列挙型 品詞
+	 *
+	 * @return this EnglishWordBean自インスタンス
 	 */
-	public void setPart(Part part) throws IllegalArgumentException {
+	public EnglishWordBean setPart(Part part) throws IllegalArgumentException {
 		if (part == null) {
 			throw new IllegalArgumentException("品詞の入力値に異常値があります。");
 		}
 		this.part = part;
+		return this;
 	}
 
 	/**
@@ -115,12 +125,15 @@ public class EnglishWordBean {
 	 *            String型 英単語意味
 	 * @throws IllegalArgumentException
 	 *             入力チェックで定義外引数が入力されたときにスローする
+	 *
+	 * @return this EnglishWordBean自インスタンス
 	 */
-	public void setMean(String mean) throws IllegalArgumentException {
+	public EnglishWordBean setMean(String mean) throws IllegalArgumentException {
 		if (checkMean.validate(mean)) {
 			throw new IllegalArgumentException("英単語意味の入力値に異常値があります。");
 		}
 		this.mean = mean;
+		return this;
 	}
 
 	/**
@@ -137,11 +150,18 @@ public class EnglishWordBean {
 	 *
 	 * @param updateTime
 	 *            String型 更新日時
+	 *
+	 * @return this EnglishWordBean自インスタンス
 	 */
-	public void setUpdateTime(Timestamp updateTime) {
+	public EnglishWordBean setUpdateTime(Timestamp updateTime) {
 
 		this.updateTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(updateTime);
-		;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId() + ":" + getWord() + ":" + getPart() + ":" + getMean();
 	}
 
 }

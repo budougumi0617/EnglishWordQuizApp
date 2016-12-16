@@ -93,13 +93,13 @@ public class MainFrame extends JFrame {
 		JButton btQuiz = new JButton("出題");
 		btQuiz.setBounds(48, 31, 131, 21);
 		getContentPane().add(btQuiz);
-		btQuiz.addActionListener(ae -> this.ctrl.btMakeQuizAction(ae, this));
+		btQuiz.addActionListener(ae -> this.ctrl.btMakeQuizAction(ae));
 
 		/** 英単語管理ボタン設定 */
 		JButton btEdit = new JButton("英単語管理");
 		btEdit.setBounds(225, 31, 131, 21);
 		getContentPane().add(btEdit);
-		btEdit.addActionListener(ae -> this.ctrl.btManageAction(ae, this));
+		btEdit.addActionListener(ae -> this.ctrl.btManageAction(ae));
 
 		/** 解答欄設定 */
 		tfAnswerBox = new JTextField();
@@ -112,7 +112,7 @@ public class MainFrame extends JFrame {
 		JButton btAnswer = new JButton("答え合わせ");
 		btAnswer.setBounds(568, 259, 131, 21);
 		getContentPane().add(btAnswer);
-		btAnswer.addActionListener(ae -> this.ctrl.btAnswerAction(ae, this));
+		btAnswer.addActionListener(ae -> this.ctrl.btAnswerAction(ae));
 
 		/** 解答欄ラベル設定 */
 		JLabel lbAnswerSeet = new JLabel("解答欄：");

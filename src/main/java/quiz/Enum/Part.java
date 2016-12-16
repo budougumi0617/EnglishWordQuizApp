@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/06
  */
-package quiz.model;
+package quiz.Enum;
 
 /**
  * 品詞の列挙型を定義
@@ -13,8 +13,8 @@ public enum Part {
 
 	// 名詞, 代名詞, 動詞, 形容詞, 副詞, 冠詞, 助動詞, 前置詞, 疑問詞, 接続詞,
 
-	noun("名詞"), pronoun("代名詞"), verb("動詞"), adjective("形容詞"), adverb("副詞"), article("冠詞"), modalverb(
-			"助動詞"), preposition("前置詞"), interrogatives("疑問詞"), conjunction("接続詞"),;
+	NOUN("名詞"), PRONOUN("代名詞"), VERB("動詞"), ADJECTIVE("形容詞"), ADVERB("副詞"), ARTICLE("冠詞"), MODALVERB(
+			"助動詞"), PREPOSITION("前置詞"), INTERROGATIVES("疑問詞"), CONJUNCTION("接続詞"),;
 
 	/** メンバ変数の定義 */
 	private String name;

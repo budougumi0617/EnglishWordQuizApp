@@ -8,9 +8,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
+
+import quiz.Enum.Part;
 
 /**
  * MySQLデータベース接続クラス
@@ -40,6 +41,12 @@ public class SqlDataStore extends Observable implements DataStore {
 	private final String user = "root";
 	/** 接続パスワード */
 	private final String pass = "root";
+
+	/** 使用テーブル名 */
+	private final String table = "englishword";
+
+	/** テーブルカラム名 */
+	private final String[] col = { "id", "word", "part", "mean", "updated_at" };
 
 	/** セッション */
 	private Connection con = null;
@@ -88,12 +95,16 @@ public class SqlDataStore extends Observable implements DataStore {
 	 * @throws java.lang.Exception
 	 *             発生する全例外
 	 *
+	 * @return allData ArrayList<EnglishWordBean> 全データ
+	 *
 	 * @note 全ての例外をthrowsする
+	 *
+	 * @note allDataは更新降順にソートを行う
 	 */
 	@Override
 	public ArrayList<EnglishWordBean> getAll() throws Exception {
 
-		String sql = "select * from englishword ";
+		String sql = "select * from " + table + " order by " + col[4] + " desc ";
 
 		ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery(sql);
@@ -103,18 +114,11 @@ public class SqlDataStore extends Observable implements DataStore {
 		/* データ格納 */
 		while (rs.next()) {
 			EnglishWordBean bean = new EnglishWordBean();
-
-			bean.setId(rs.getInt("id"));
-			bean.setWord(rs.getString("word"));
-			bean.setPart(Part.getPart(rs.getString("part")));
-			bean.setMean(rs.getString("mean"));
-			bean.setUpdateTime(rs.getTimestamp("updated_at"));
+			bean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1])).setPart(Part.getPart(rs.getString(col[2])))
+					.setMean(rs.getString(col[3])).setUpdateTime(rs.getTimestamp(col[4]));
 
 			allData.add(bean);
 		}
-
-		/** 更新順へソート */
-		allData.sort(Comparator.comparing(EnglishWordBean::getUpdateTime).reversed());
 
 		return allData;
 	}
@@ -125,16 +129,18 @@ public class SqlDataStore extends Observable implements DataStore {
 	 * @throws java.lang.Exception
 	 *             発生する全例外
 	 *
+	 * @param bean
+	 *            EnglishWordBean
+	 *
 	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public void insert(EnglishWordBean bean) throws Exception {
-		String sql = "insert into englishword (word, part, mean ) values ( '" + bean.getWord() + "' , '"
-				+ bean.getPart().toString() + "'  , '" + bean.getMean() + "' )";
+		String sql = "insert into " + table + " ( " + col[1] + ", " + col[2] + ", " + col[3] + " ) values ( '"
+				+ bean.getWord() + "' , '" + bean.getPart().toString() + "' , '" + bean.getMean() + "' )";
 
 		ps = con.createStatement();
 		ps.executeUpdate(sql);
-		System.out.println("obsever has " + this.countObservers());
 
 		/** 変更通知をObserverへ出す */
 		setChanged();
@@ -149,6 +155,9 @@ public class SqlDataStore extends Observable implements DataStore {
 	 * @throws java.lang.Exception
 	 *             発生する全例外
 	 *
+	 * @param bean
+	 *            EnglishWordBean
+	 *
 	 * @note 全ての例外をthrowsする
 	 */
 	@Override
@@ -161,6 +170,9 @@ public class SqlDataStore extends Observable implements DataStore {
 	 *
 	 * @throws java.lang.Exception
 	 *             発生する全例外
+	 *
+	 * @param bean
+	 *            EnglishWordBean
 	 *
 	 * @note 全ての例外をthrowsする
 	 */
@@ -175,26 +187,28 @@ public class SqlDataStore extends Observable implements DataStore {
 	 * @throws java.lang.Exception
 	 *             発生する全例外
 	 *
+	 * @param bean
+	 *            EnglishWordBean
+	 *
+	 * @return searchBean EnglishWordBean取得データ1件 該当データがなかった場合nullを返す
+	 *
 	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public EnglishWordBean searchWord(EnglishWordBean bean) throws Exception {
 
-		String sql = "select * from englishword where word like '" + bean.getWord() + "' " + "and mean like '%"
-				+ bean.getMean() + "%'  order by updated_at desc limit 1 ";
+		String sql = "select * from " + table + " where word like '" + bean.getWord() + "' " + " and mean like '%"
+				+ bean.getMean() + "%'  order by " + col[4] + " desc limit 1 ";
 
 		ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery(sql);
 
-		EnglishWordBean searchBean = new EnglishWordBean();
-
 		/* データ表示 */
 		if (rs.next()) {
-			searchBean.setId(rs.getInt("id"));
-			searchBean.setWord(rs.getString("word"));
-			searchBean.setPart(Part.getPart(rs.getString("part")));
-			searchBean.setMean(rs.getString("mean"));
-			searchBean.setUpdateTime(rs.getTimestamp("updated_at"));
+			EnglishWordBean searchBean = new EnglishWordBean();
+			searchBean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
+					.setPart(Part.getPart(rs.getString(col[2]))).setMean(rs.getString(col[3]))
+					.setUpdateTime(rs.getTimestamp(col[4]));
 
 			return searchBean;
 		}
@@ -208,23 +222,22 @@ public class SqlDataStore extends Observable implements DataStore {
 	 * @throws java.lang.Exception
 	 *             発生する全例外
 	 *
+	 * @return randomBean EnglishWordBean取得データ1件 該当データがなかった場合nullを返す
+	 *
 	 * @note 全ての例外をthrowsする
 	 */
 	@Override
 	public EnglishWordBean getRandom() throws Exception {
-		String sql = "select * from englishword order by rand() limit 1 ";
+		String sql = "select * from " + table + " order by rand() limit 1 ";
 
 		ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery(sql);
 
-		EnglishWordBean randomBean = new EnglishWordBean();
-
 		if (rs.next()) {
-			randomBean.setId(rs.getInt("id"));
-			randomBean.setWord(rs.getString("word"));
-			randomBean.setPart(Part.getPart(rs.getString("part")));
-			randomBean.setMean(rs.getString("mean"));
-			randomBean.setUpdateTime(rs.getTimestamp("updated_at"));
+			EnglishWordBean randomBean = new EnglishWordBean();
+			randomBean.setId(rs.getInt(col[0])).setWord(rs.getString(col[1]))
+					.setPart(Part.getPart(rs.getString(col[2]))).setMean(rs.getString(col[3]))
+					.setUpdateTime(rs.getTimestamp(col[4]));
 
 			return randomBean;
 		}
@@ -234,6 +247,9 @@ public class SqlDataStore extends Observable implements DataStore {
 
 	/**
 	 * Observerの追加
+	 *
+	 * @param o
+	 *            Observer
 	 */
 	public void addObserver(Observer o) {
 		super.addObserver(o);

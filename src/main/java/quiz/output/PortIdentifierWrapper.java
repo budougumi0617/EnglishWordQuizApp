@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/05
  */
-package quiz;
+package quiz.output;
 
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -27,7 +27,7 @@ public class PortIdentifierWrapper {
 	 * @throws PortInUseException
 	 *             指定したポートが既に使われている場合にスローする
 	 */
-	static CommPort getCommPort(String commPort) throws NoSuchPortException, PortInUseException {
+	public static CommPort getCommPort(String commPort) throws NoSuchPortException, PortInUseException {
 		return CommPortIdentifier.getPortIdentifier(commPort).open("Arduino Uno", 2000);
 	}
 }

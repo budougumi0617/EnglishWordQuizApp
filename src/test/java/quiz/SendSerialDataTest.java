@@ -25,6 +25,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import gnu.io.CommPort;
 import gnu.io.SerialPort;
+import quiz.output.PortIdentifierWrapper;
+import quiz.output.SendSerialData;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ SendSerialData.class, PortIdentifierWrapper.class })
@@ -80,7 +82,7 @@ public class SendSerialDataTest {
 	}
 
 	/**
-	 * 正常系テスト {@link quiz.SendSerialData#open()}
+	 * 正常系テスト {@link quiz.SendSerialData#showDialog()}
 	 *
 	 * @note 処理が全て通るか判定する
 	 */

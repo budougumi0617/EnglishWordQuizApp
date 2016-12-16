@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import quiz.Enum.Part;
+
 /**
  * MySQLデータベース接続クラスのテスト
  *
@@ -100,7 +102,8 @@ public class SqlDataStoreTest {
 	 */
 	public static java.sql.Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", "");
+		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root",
+				"");
 	}
 
 	/**

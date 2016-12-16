@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Observer;
 
+import javax.swing.JButton;
+
 import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
-import quiz.SendSerialData;
 import quiz.model.DataStore;
 import quiz.model.EnglishWordBean;
+import quiz.output.SendSerialData;
 import quiz.view.AddDialog;
 import quiz.view.ErrorDialog;
 import quiz.view.MainFrame;
@@ -47,10 +49,6 @@ public class Controller {
 	 */
 	public Controller(DataStore data) {
 		this.data = data;
-
-		/** Observerの追加 */
-		this.data.addObserver((Observer) manageDialog);
-
 	}
 
 	/**
@@ -60,6 +58,8 @@ public class Controller {
 		manageDialog = new ManageDialog(this);
 		addDialog = new AddDialog(this);
 
+		/** Observerの追加 */
+		this.data.addObserver((Observer) manageDialog);
 	}
 
 	/**
@@ -68,9 +68,20 @@ public class Controller {
 	 * @param ae
 	 *            ボタン押下アクション
 	 */
-	public void btMakeQuizAction(ActionEvent ae, MainFrame mf) {
+	public void btMakeQuizAction(ActionEvent ae) {
 
 		try {
+
+			JButton bt = null;
+			MainFrame mf = null;
+
+			if (ae.getSource() instanceof JButton) {
+				bt = (JButton) (ae.getSource());
+			}
+			if (bt.getParent() instanceof MainFrame) {
+				mf = (MainFrame) (bt.getParent());
+			}
+
 			data.open();
 			mf.setLabelText(data.getRandom());
 			data.close();
@@ -89,12 +100,22 @@ public class Controller {
 	 * @param ae
 	 *            ボタン押下アクション
 	 */
-	public void btManageAction(ActionEvent ae, MainFrame mf) {
+	public void btManageAction(ActionEvent ae) {
 
 		try {
+			JButton bt = null;
+			MainFrame mf = null;
+
+			if (ae.getSource() instanceof JButton) {
+				bt = (JButton) (ae.getSource());
+			}
+			if (bt.getParent() instanceof MainFrame) {
+				mf = (MainFrame) (bt.getParent());
+			}
+
 			mf.clearLabelText();
 			data.open();
-			manageDialog.open(data.getAll());
+			manageDialog.showDialog(data.getAll());
 			data.close();
 
 		} catch (SQLException e) {
@@ -111,9 +132,19 @@ public class Controller {
 	 * @param ae
 	 *            ボタン押下アクション
 	 */
-	public void btAnswerAction(ActionEvent ae, MainFrame mf) {
+	public void btAnswerAction(ActionEvent ae) {
 
 		try {
+			JButton bt = null;
+			MainFrame mf = null;
+
+			if (ae.getSource() instanceof JButton) {
+				bt = (JButton) (ae.getSource());
+			}
+			if (bt.getParent() instanceof MainFrame) {
+				mf = (MainFrame) (bt.getParent());
+			}
+
 			/** 検索対象データ取得 */
 			EnglishWordBean bean = mf.getBean();
 
@@ -125,10 +156,9 @@ public class Controller {
 			data.close();
 
 			if (answerBean == null) {
-				bean.setWord("%");
 
 				data.open();
-				answerBean = data.searchWord(bean);
+				answerBean = data.searchWord(bean.setWord("%"));
 				data.close();
 
 				result = "Incorrect!";
@@ -181,7 +211,7 @@ public class Controller {
 	 *            ボタン押下アクション
 	 */
 	public void btAddDialogAction(ActionEvent ae) {
-		addDialog.open();
+		addDialog.showDialog();
 	}
 
 	/**
@@ -215,9 +245,8 @@ public class Controller {
 		try {
 			addDialog.setVisible(false);
 
-			EnglishWordBean bean = addDialog.getBean();
 			data.open();
-			data.insert(bean);
+			data.insert(addDialog.getBean());
 			data.close();
 
 		} catch (SQLException e) {

@@ -1,7 +1,7 @@
 /**
  * @file 2016/12/05
  */
-package quiz;
+package quiz.output;
 
 import java.io.OutputStream;
 
@@ -14,7 +14,7 @@ import gnu.io.SerialPort;
  * @author Yuka Yoshikawa
  *
  */
-public class SendSerialData implements OutPut {
+public class SendSerialData implements Output {
 
 	/** String型 COMポート番号 */
 	private String commPort;

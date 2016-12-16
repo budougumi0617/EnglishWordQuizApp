@@ -93,7 +93,7 @@ public class ManageDialog extends JDialog implements Observer {
 	 * @param list
 	 *            ArrayList<EnglishWordBean>型 英単語全データリスト
 	 */
-	public void open(ArrayList<EnglishWordBean> list) {
+	public void showDialog(ArrayList<EnglishWordBean> list) {
 		setDataTable(list);
 		setVisible(true);
 	}
