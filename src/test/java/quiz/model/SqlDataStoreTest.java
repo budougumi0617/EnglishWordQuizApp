@@ -221,11 +221,14 @@ public class SqlDataStoreTest {
 
 			bean.setId(3);
 			bean.setWord("cat");
+			bean.setPart(Part.getPart("名詞"));
 			bean.setMean("ねこ");
 
 			sds.delete(bean);
 
 			assertThat(sds.getAll().size(), is(3));
+
+			sds.insert(bean);
 
 		} catch (Exception e) {
 			fail(e.getMessage());
