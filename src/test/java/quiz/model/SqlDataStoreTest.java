@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,9 +14,7 @@ import java.util.ArrayList;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.database.QueryDataSet;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
@@ -37,11 +34,11 @@ import quiz.Enum.Part;
 
 public class SqlDataStoreTest {
 
-	// /** SqlDataStoreクラスのconnection先のリフレクション */
-	// private java.lang.reflect.Field jdbc;
-	//
-	// /** SqlDataStoreクラスのpasswordリフレクション */
-	// private java.lang.reflect.Field pass;
+	/** SqlDataStoreクラスのconnection先のリフレクション */
+	private java.lang.reflect.Field jdbc;
+
+	/** SqlDataStoreクラスのpasswordリフレクション */
+	private java.lang.reflect.Field pass;
 
 	/** Connectionnクラスのリフレクション */
 	private java.lang.reflect.Field con;
@@ -66,15 +63,11 @@ public class SqlDataStoreTest {
 		sds = new SqlDataStore();
 		java.sql.Connection connection = getConnection();
 
-		// /** SqlDataStoreのConnection先の書き換え */
-		// jdbc = SqlDataStore.class.getDeclaredField("jdbc");
-		// jdbc.setAccessible(true);
-		// jdbc.set(sds, "jdbc:mysql://localhost/test");
+		/** SqlDataStoreのConnection先の書き換え */
+		jdbc = SqlDataStore.class.getDeclaredField("jdbc");
+		jdbc.setAccessible(true);
+		jdbc.set(sds, "jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8");
 		//
-		// /** SqlDataStoreのpasswordの書き換え */
-		// pass = SqlDataStore.class.getDeclaredField("pass");
-		// pass.setAccessible(true);
-		// pass.set(sds, "");
 
 		/** SqlDataStoreのConnectionの書き換え */
 		con = SqlDataStore.class.getDeclaredField("con");
@@ -86,12 +79,12 @@ public class SqlDataStoreTest {
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-		/** テストデータバックアップ */
-		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
+//		/** テストデータバックアップ */
+//		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
 
-		partialDataSet.addTable("englishword");
-		file = File.createTempFile("escape", ".xml");
-		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
+//		partialDataSet.addTable("englishword");
+//		file = File.createTempFile("escape", ".xml");
+//		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
 
 		/** XmlテストデータをテストDBに入れる */
 		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
@@ -122,9 +115,9 @@ public class SqlDataStoreTest {
 	@After
 	public void tearDown() throws Exception {
 
-		/** テストデータを入れる */
-		IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
-		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+		// /** テストデータを入れる */
+		// IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
+		// DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 		if (con != null) {
 			sds.close();
@@ -138,11 +131,21 @@ public class SqlDataStoreTest {
 	 *
 	 * @note 処理が全て通るか判定する
 	 */
-	@Ignore
+	@Test
 	public void testOpen() {
 
 		try {
+			/** SqlDataStoreのpasswordの書き換え */
+			pass = SqlDataStore.class.getDeclaredField("pass");
+			pass.setAccessible(true);
+
+			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
+
+			pass.set(sds, password);
+
+			sds.close();
 			sds.open();
+			sds.close();
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -158,7 +161,6 @@ public class SqlDataStoreTest {
 	public void testClose() {
 
 		try {
-			sds.open();
 			sds.close();
 
 		} catch (Exception e) {
