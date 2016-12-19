@@ -196,6 +196,10 @@ public class SqlDataStoreTest {
 
 			sds.insert(bean);
 
+			assertThat(sds.getAll().size(), is(5));
+
+			sds.delete(bean);
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
