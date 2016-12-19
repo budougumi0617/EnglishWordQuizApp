@@ -18,6 +18,7 @@ import quiz.model.DataStore;
 import quiz.model.EnglishWordBean;
 import quiz.output.SendSerialData;
 import quiz.view.AddDialog;
+import quiz.view.DeleteDialog;
 import quiz.view.ErrorDialog;
 import quiz.view.MainFrame;
 import quiz.view.ManageDialog;
@@ -39,9 +40,9 @@ public class Controller {
 	private AddDialog addDialog;
 
 	// /** 英単語編集画面 */
-	// private EditDialog = new EditDialog(this);
-	// /** 英単語削除画面 */
-	// private DeleteDialog = new DeleteDialog(this);
+	// private EditDialog editDialog;
+	/** 英単語削除画面 */
+	private DeleteDialog deleteDialog;
 
 	/**
 	 * コンストラクタでデータストアのインスタンスをセット
@@ -58,6 +59,7 @@ public class Controller {
 	public void setViewInstance() {
 		manageDialog = new ManageDialog(this);
 		addDialog = new AddDialog(this);
+		deleteDialog = new DeleteDialog(this);
 
 		/** Observerの追加 */
 		this.data.addObserver((Observer) manageDialog);
@@ -88,7 +90,8 @@ public class Controller {
 
 		} catch (SQLException e) {
 			ErrorDialog.showErrorDialog("DBアクセスエラーが発生しました。");
-
+		} catch (NullPointerException e) {
+			ErrorDialog.showErrorDialog("単語が登録されていません" + e);
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。" + e);
 		}
@@ -230,6 +233,24 @@ public class Controller {
 	 */
 	public void btDeleteDialogAction(ActionEvent ae) {
 
+		try {
+			JButton bt = null;
+			ManageDialog md = null;
+
+			if (ae.getSource() instanceof JButton) {
+				bt = (JButton) (ae.getSource());
+			}
+			if (SwingUtilities.getRoot(bt) instanceof ManageDialog) {
+				md = (ManageDialog) (SwingUtilities.getRoot(bt));
+			}
+			/** 検索対象データ取得 */
+			EnglishWordBean bean = md.getBean();
+
+			deleteDialog.showDialog(bean);
+
+		} catch (ArrayIndexOutOfBoundsException e) {
+			ErrorDialog.showErrorDialog("削除する英単語を選択してください");
+		}
 	}
 
 	/**
@@ -282,7 +303,27 @@ public class Controller {
 	 * @param ae
 	 *            ボタン押下アクション
 	 */
-	public void btDeleteAction(ActionEvent ae) {
+	public void btDeleteAction(EnglishWordBean bean) {
+
+		try {
+			addDialog.setVisible(false);
+
+			data.open();
+			data.delete(bean);
+			data.close();
+
+		} catch (SQLException e) {
+			ErrorDialog.showErrorDialog("DBの接続に失敗しました。");
+
+		} catch (IOException e) {
+			ErrorDialog.showErrorDialog("内部エラーが発生しました。");
+
+		} catch (IllegalArgumentException e) {
+			ErrorDialog.showErrorDialog(e.getMessage());
+
+		} catch (Exception e) {
+			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		}
 
 	}
 

@@ -33,6 +33,8 @@ public class ManageDialog extends JDialog implements Observer {
 	private Controller ctrl;
 	/** 全英単語表示テーブル */
 	private JTable tbData;
+	/** 英単語全データリスト */
+	private ArrayList<EnglishWordBean> list;
 	/** 英単語全データ保持モデル */
 	private DefaultTableModel model;
 
@@ -84,6 +86,7 @@ public class ManageDialog extends JDialog implements Observer {
 		JButton btDelete = new JButton("削除");
 		btDelete.setBounds(435, 220, 91, 21);
 		getContentPane().add(btDelete);
+		btDelete.addActionListener(ae -> this.ctrl.btDeleteDialogAction(ae));
 
 	}
 
@@ -95,6 +98,7 @@ public class ManageDialog extends JDialog implements Observer {
 	 */
 	public void showDialog(ArrayList<EnglishWordBean> list) {
 		setDataTable(list);
+		tbData.setRowSelectionInterval(0, 0);
 		setVisible(true);
 	}
 
@@ -106,12 +110,15 @@ public class ManageDialog extends JDialog implements Observer {
 	 */
 	public void setDataTable(ArrayList<EnglishWordBean> list) {
 
+		this.list = list;
+
 		model = new DefaultTableModel(new String[] { "英単語", "品詞", "意味" }, 0);
 
 		for (int i = 0; i < list.size(); i++) {
 			model.addRow(
 					new String[] { list.get(i).getWord(), list.get(i).getPart().toString(), list.get(i).getMean() });
 		}
+
 
 		tbData = new JTable(model);
 
@@ -132,6 +139,17 @@ public class ManageDialog extends JDialog implements Observer {
 
 		tbData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbData.setDefaultEditor(Object.class, null);
+
+	}
+
+	/**
+	 * 入力されているデータを渡すメソッド
+	 *
+	 * @return bean EnglishWordBean 入力値データ
+	 */
+	public EnglishWordBean getBean() {
+		return new EnglishWordBean().setId(list.get(tbData.getSelectedRow()).getId())
+				.setWord(list.get(tbData.getSelectedRow()).getWord());
 
 	}
 

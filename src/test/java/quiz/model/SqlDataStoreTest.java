@@ -214,9 +214,22 @@ public class SqlDataStoreTest {
 	 * {@link quiz.model.SqlDataStore#delete(quiz.model.EnglishWordBean)}
 	 * のためのテスト・メソッド。
 	 */
-	@Ignore
+	@Test
 	public void testDelete() {
-		fail("まだ実装されていません"); // TODO
+		try {
+			EnglishWordBean bean = new EnglishWordBean();
+
+			bean.setId(3);
+			bean.setWord("cat");
+			bean.setMean("ねこ");
+
+			sds.delete(bean);
+
+			assertThat(sds.getAll().size(), is(3));
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**

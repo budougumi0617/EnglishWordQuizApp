@@ -34,6 +34,7 @@ import quiz.model.EnglishWordBean;
 import quiz.model.SqlDataStore;
 import quiz.output.SendSerialData;
 import quiz.view.AddDialog;
+import quiz.view.DeleteDialog;
 import quiz.view.ErrorDialog;
 import quiz.view.MainFrame;
 import quiz.view.ManageDialog;
@@ -64,6 +65,8 @@ public class ControllerTest {
 	@Mock
 	private AddDialog mockAddDialog;
 	@Mock
+	private DeleteDialog mockDeleteDialog;
+	@Mock
 	private JButton mockJButton;
 
 	/**
@@ -83,6 +86,7 @@ public class ControllerTest {
 		mockMainFrame = mock(MainFrame.class);
 		mockManageDialog = mock(ManageDialog.class);
 		mockAddDialog = mock(AddDialog.class);
+		mockDeleteDialog = mock(DeleteDialog.class);
 		mockJButton = mock(JButton.class);
 
 		MockitoAnnotations.initMocks(this);
@@ -102,6 +106,7 @@ public class ControllerTest {
 		mockMainFrame = null;
 		mockManageDialog = null;
 		mockAddDialog = null;
+		mockDeleteDialog = null;
 		mockJButton = null;
 	}
 
@@ -115,8 +120,8 @@ public class ControllerTest {
 	public void testController() {
 		try {
 			ctrl = new Controller(mockSqlDataStore);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -133,8 +138,9 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			ctrl.btMakeQuizAction(mockActionEvent);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -150,13 +156,37 @@ public class ControllerTest {
 			doThrow(new SQLException()).when(mockDataStore).getRandom();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btMakeQuizAction(mockActionEvent);
 
 		} catch (SQLException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
 
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btMakeQuizAction(java.awt.event.ActionEvent)}
+	 *
+	 * @note NullPointerException発生時にErrorDialogクラスのstatic
+	 *       show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtMakeQuizActionCatchNullPointerException() {
+		try {
+			doThrow(new NullPointerException()).when(mockDataStore).getRandom();
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			ctrl.btMakeQuizAction(mockActionEvent);
+
+		} catch (NullPointerException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -169,13 +199,14 @@ public class ControllerTest {
 	@Test
 	public void testBtMakeQuizActionCatchException() {
 		try {
+			doThrow(new Exception()).when(mockDataStore).getRandom();
+
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btMakeQuizAction(mockActionEvent);
 
+		} catch (Exception e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
 		}
 	}
 
@@ -192,8 +223,9 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			ctrl.btMakeQuizAction(mockActionEvent);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -206,15 +238,16 @@ public class ControllerTest {
 	@Test
 	public void testBtManageActionCatchSQLException() {
 		try {
-			doThrow(new SQLException()).when(mockDataStore).getAll();
+			doThrow(new SQLException()).when(mockDataStore).getRandom();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
-			ctrl.btManageAction(mockActionEvent);
 
+			ctrl.btMakeQuizAction(mockActionEvent);
+
+		} catch (SQLException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -230,12 +263,11 @@ public class ControllerTest {
 			doThrow(new Exception()).when(mockDataStore).getAll();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btManageAction(mockActionEvent);
 
+		} catch (Exception e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
 		}
 	}
 
@@ -253,8 +285,8 @@ public class ControllerTest {
 
 			ctrl.btMakeQuizAction(mockActionEvent);
 
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -277,12 +309,13 @@ public class ControllerTest {
 			doThrow(new NoSuchPortException()).when(mockSendSerialData).open();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (NoSuchPortException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -290,7 +323,7 @@ public class ControllerTest {
 	 * 異常系テスト
 	 * {@link quiz.controller.Controller#btAnswerAction(java.awt.event.ActionEvent)}
 	 *
-	 * @note NoSuchPortException発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
+	 * @note PortInUseException発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
 	 */
 	@Test
 	public void testBtAnswerActionCatchPortInUseException() {
@@ -304,12 +337,13 @@ public class ControllerTest {
 			doThrow(new PortInUseException()).when(mockSendSerialData).open();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (PortInUseException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -332,12 +366,13 @@ public class ControllerTest {
 			doThrow(new UnsupportedCommOperationException()).when(mockSendSerialData).open();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (UnsupportedCommOperationException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -359,12 +394,13 @@ public class ControllerTest {
 			doThrow(new SQLException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (SQLException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -387,12 +423,15 @@ public class ControllerTest {
 			doThrow(new NumberFormatException()).when(mockSendSerialData).setCommPort((String) anyObject());
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
 			PowerMockito.verifyStatic(Mockito.times(1));
 
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (NumberFormatException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -415,12 +454,13 @@ public class ControllerTest {
 			doThrow(new InterruptedException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (InterruptedException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -442,12 +482,13 @@ public class ControllerTest {
 			doThrow(new IOException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (IOException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -465,18 +506,19 @@ public class ControllerTest {
 			when(mockActionEvent.getSource()).thenReturn(mockJButton);
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
-			EnglishWordBean mockWnglishWordBean = Mockito.mock(EnglishWordBean.class);
-			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockWnglishWordBean);
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
 
-			doThrow(new IllegalArgumentException()).when(mockWnglishWordBean).setWord((String) anyObject());
+			doThrow(new IllegalArgumentException()).when(mockEnglishWordBean).setWord((String) anyObject());
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (IllegalArgumentException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -498,12 +540,11 @@ public class ControllerTest {
 			doThrow(new Exception()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAnswerAction(mockActionEvent);
 
+		} catch (Exception e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
 		}
 	}
 
@@ -521,8 +562,9 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			ctrl.btAddDialogAction(mockActionEvent);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -555,8 +597,8 @@ public class ControllerTest {
 		try {
 			ctrl.btAddAction(mockActionEvent);
 
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
@@ -576,16 +618,39 @@ public class ControllerTest {
 
 			ctrl.btAddAction(mockActionEvent);
 
+		} catch (SQLException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
 	/**
 	 * 異常系テスト
-	 * {@link quiz.controller.Controller#btAnswerAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 * {@link quiz.controller.Controller#btAddAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 *
+	 * @note IOException発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtAddActionCatchIOException() {
+		try {
+
+			doThrow(new IOException()).when(mockDataStore).insert((EnglishWordBean) anyObject());
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			ctrl.btAddAction(mockActionEvent);
+
+		} catch (IOException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btAddAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
 	 *
 	 * @note IllegalArgumentException発生時にErrorDialogクラスのstatic
 	 *       show()メソッドが1度呼ばれているか判定
@@ -597,18 +662,19 @@ public class ControllerTest {
 			doThrow(new IllegalArgumentException()).when(mockDataStore).insert((EnglishWordBean) anyObject());
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAddAction(mockActionEvent);
 
+		} catch (IllegalArgumentException e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 
 	/**
 	 * 異常系テスト
-	 * {@link quiz.controller.Controller#btAnswerAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 * {@link quiz.controller.Controller#btAddAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
 	 *
 	 * @note Exception発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
 	 */
@@ -619,12 +685,11 @@ public class ControllerTest {
 			doThrow(new Exception()).when(mockDataStore).insert((EnglishWordBean) anyObject());
 
 			PowerMockito.mockStatic(ErrorDialog.class);
+
 			ctrl.btAddAction(mockActionEvent);
 
+		} catch (Exception e) {
 			PowerMockito.verifyStatic(Mockito.times(1));
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
 		}
 	}
 
@@ -638,12 +703,120 @@ public class ControllerTest {
 	}
 
 	/**
+	 * 正常系テスト
 	 * {@link quiz.controller.Controller#btDeleteAction(java.awt.event.ActionEvent)}
-	 * のためのテスト・メソッド。
+	 *
+	 * @note 処理が全て通るか判定する
 	 */
-	@Ignore
+	@Test
 	public void testBtDeleteAction() {
-		fail("まだ実装されていません"); // TODO
+		try {
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
+
+			ctrl.btDeleteAction(mockEnglishWordBean);
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btDeleteAction(java.awt.event.ActionEvent)}
+	 *
+	 * @note SQLException発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtDeleteCatchSQLException() {
+		try {
+			doThrow(new SQLException()).when(mockDataStore).insert((EnglishWordBean) anyObject());
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
+
+			ctrl.btDeleteAction(mockEnglishWordBean);
+
+		} catch (SQLException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btDeleteAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 *
+	 * @note IOException発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtDeleteCatchIOException() {
+		try {
+			doThrow(new IOException()).when(mockDataStore).insert((EnglishWordBean) anyObject());
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
+
+			ctrl.btDeleteAction(mockEnglishWordBean);
+
+		} catch (IOException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btDeleteAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 *
+	 * @note IllegalArgumentException発生時にErrorDialogクラスのstatic
+	 *       show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtDeleteCatchIllegalArgumentException() {
+		try {
+			doThrow(new IllegalArgumentException()).when(mockDataStore).insert((EnglishWordBean) anyObject());
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
+
+			ctrl.btDeleteAction(mockEnglishWordBean);
+
+		} catch (IllegalArgumentException e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 異常系テスト
+	 * {@link quiz.controller.Controller#btDeleteAction(java.awt.event.ActionEvent, quiz.view.MainFrame)}
+	 *
+	 * @note Exception発生時にErrorDialogクラスのstatic show()メソッドが1度呼ばれているか判定
+	 */
+	@Test
+	public void testBtDeleteActionCatchException() {
+		try {
+			doThrow(new Exception()).when(mockDataStore).insert((EnglishWordBean) anyObject());
+
+			PowerMockito.mockStatic(ErrorDialog.class);
+
+			EnglishWordBean mockEnglishWordBean = Mockito.mock(EnglishWordBean.class);
+			PowerMockito.whenNew(EnglishWordBean.class).withNoArguments().thenReturn(mockEnglishWordBean);
+
+			ctrl.btDeleteAction(mockEnglishWordBean);
+
+		} catch (Exception e) {
+			PowerMockito.verifyStatic(Mockito.times(1));
+		}
+	}
 }

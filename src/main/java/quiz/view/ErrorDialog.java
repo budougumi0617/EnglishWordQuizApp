@@ -19,7 +19,6 @@ public class ErrorDialog extends JOptionPane {
 	 * @param errorMessage
 	 *            String型 エラー内容のメッセージ
 	 */
-
 	static public void showErrorDialog(String errorMessage) {
 		Object[] selectvalue = { "閉じる" };
 		showOptionDialog(null, errorMessage, "エラー発生", YES_NO_OPTION, ERROR_MESSAGE, null, selectvalue, null);
