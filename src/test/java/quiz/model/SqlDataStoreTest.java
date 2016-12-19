@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,12 +64,6 @@ public class SqlDataStoreTest {
 		sds = new SqlDataStore();
 		java.sql.Connection connection = getConnection();
 
-		/** SqlDataStoreのConnection先の書き換え */
-		jdbc = SqlDataStore.class.getDeclaredField("jdbc");
-		jdbc.setAccessible(true);
-		jdbc.set(sds, "jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8");
-		//
-
 		/** SqlDataStoreのConnectionの書き換え */
 		con = SqlDataStore.class.getDeclaredField("con");
 		con.setAccessible(true);
@@ -79,12 +74,12 @@ public class SqlDataStoreTest {
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-//		/** テストデータバックアップ */
-//		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
+		// /** テストデータバックアップ */
+		// QueryDataSet partialDataSet = new QueryDataSet(dbconn);
 
-//		partialDataSet.addTable("englishword");
-//		file = File.createTempFile("escape", ".xml");
-//		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
+		// partialDataSet.addTable("englishword");
+		// file = File.createTempFile("escape", ".xml");
+		// FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
 
 		/** XmlテストデータをテストDBに入れる */
 		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
@@ -131,16 +126,28 @@ public class SqlDataStoreTest {
 	 *
 	 * @note 処理が全て通るか判定する
 	 */
-	@Test
+	@Ignore
 	public void testOpen() {
 
 		try {
+
+			/** SqlDataStoreのConnection先の書き換え */
+			jdbc = sds.getClass().getDeclaredField("jdbc");
+			jdbc.setAccessible(true);
+			java.lang.reflect.Field jdbcmodifiersField = java.lang.reflect.Field.class.getDeclaredField("modifiers");
+			jdbcmodifiersField.setAccessible(true);
+			jdbcmodifiersField.setInt(jdbc, jdbc.getModifiers() & ~Modifier.PRIVATE & ~Modifier.FINAL);
+
+			jdbc.set(sds, "jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8");
+
 			/** SqlDataStoreのpasswordの書き換え */
-			pass = SqlDataStore.class.getDeclaredField("pass");
+			pass = sds.getClass().getDeclaredField("pass");
 			pass.setAccessible(true);
+			java.lang.reflect.Field passmodifiersField = java.lang.reflect.Field.class.getDeclaredField("modifiers");
+			passmodifiersField.setAccessible(true);
+			passmodifiersField.setInt(pass, pass.getModifiers() & ~Modifier.PRIVATE & ~Modifier.FINAL);
 
 			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
-
 			pass.set(sds, password);
 
 			sds.close();
