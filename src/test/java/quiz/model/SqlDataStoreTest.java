@@ -6,6 +6,8 @@ package quiz.model;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +15,12 @@ import java.util.ArrayList;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.database.QueryDataSet;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
+import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -39,11 +46,11 @@ public class SqlDataStoreTest {
 	/** Connectionnクラスのリフレクション */
 	private java.lang.reflect.Field con;
 
-	// /** DBUnitテスト用Connection */
-	// private IDatabaseConnection dbconn;
-	//
-	// /** テストデータバックアップファイル */
-	// private File file;
+	/** DBUnitテスト用Connection */
+	private IDatabaseConnection dbconn;
+
+	/** テストデータバックアップファイル */
+	private File file;
 
 	/** テスト対象MySQLデータストアクラス */
 	private SqlDataStore sds;
@@ -75,21 +82,20 @@ public class SqlDataStoreTest {
 		con.set(sds, connection);
 
 		/** DBコンフィグ設定 */
-		IDatabaseConnection dbconn = new DatabaseConnection(connection);
+		dbconn = new DatabaseConnection(connection);
 		DatabaseConfig config = dbconn.getConfig();
 		config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-		// /** テストデータバックアップ */
-		// QueryDataSet partialDataSet = new QueryDataSet(dbconn);
-		//
-		// partialDataSet.addTable("englishword");
-		// file = File.createTempFile("escape", ".xml");
-		// FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
-		//
-		// /** XmlテストデータをテストDBに入れる */
-		// IDataSet dataset = new FlatXmlDataSetBuilder().build(new
-		// File("testData.xml"));
-		// DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+		/** テストデータバックアップ */
+		QueryDataSet partialDataSet = new QueryDataSet(dbconn);
+
+		partialDataSet.addTable("englishword");
+		file = File.createTempFile("escape", ".xml");
+		FlatXmlDataSet.write(partialDataSet, new FileOutputStream(file));
+
+		/** XmlテストデータをテストDBに入れる */
+		IDataSet dataset = new FlatXmlDataSetBuilder().build(new File("testData.xml"));
+		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 	}
 
@@ -102,8 +108,10 @@ public class SqlDataStoreTest {
 	 */
 	public static java.sql.Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
+
+		String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
 		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root",
-				"");
+				password);
 	}
 
 	/**
@@ -114,11 +122,9 @@ public class SqlDataStoreTest {
 	@After
 	public void tearDown() throws Exception {
 
-		// dbconn = new DatabaseConnection(getConnection());
-		//
-		// /** テストデータを入れる */
-		// IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
-		// DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
+		/** テストデータを入れる */
+		IDataSet dataset = new FlatXmlDataSetBuilder().build(file);
+		DatabaseOperation.CLEAN_INSERT.execute(dbconn, dataset);
 
 		if (con != null) {
 			sds.close();
@@ -152,6 +158,7 @@ public class SqlDataStoreTest {
 	public void testClose() {
 
 		try {
+			sds.open();
 			sds.close();
 
 		} catch (Exception e) {
@@ -171,9 +178,6 @@ public class SqlDataStoreTest {
 			ArrayList<EnglishWordBean> list = sds.getAll();
 
 			assertThat(list.size(), is(4));
-			assertThat(list.get(3).getId(), is(4));
-			assertThat(list.get(0).getWord(), is("apple"));
-			assertThat(list.get(2).getPart(), is(Part.getPart("名詞")));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -198,8 +202,6 @@ public class SqlDataStoreTest {
 
 			assertThat(sds.getAll().size(), is(5));
 
-			sds.delete(bean);
-
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -223,7 +225,6 @@ public class SqlDataStoreTest {
 		try {
 			EnglishWordBean bean = new EnglishWordBean();
 
-			bean.setId(3);
 			bean.setWord("cat");
 			bean.setPart(Part.getPart("名詞"));
 			bean.setMean("ねこ");
@@ -231,8 +232,6 @@ public class SqlDataStoreTest {
 			sds.delete(bean);
 
 			assertThat(sds.getAll().size(), is(3));
-
-			sds.insert(bean);
 
 		} catch (Exception e) {
 			fail(e.getMessage());

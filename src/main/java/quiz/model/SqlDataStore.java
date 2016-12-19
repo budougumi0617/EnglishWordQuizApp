@@ -176,7 +176,8 @@ public class SqlDataStore extends Observable implements DataStore {
 	 */
 	@Override
 	public void delete(EnglishWordBean bean) throws Exception {
-		String sql = "delete from " + table + " where " + col[0] + " = " + bean.getId();
+		String sql = "delete from " + table + " where " + col[1] + " = '" + bean.getWord() + "'";
+
 		ps = con.createStatement();
 		ps.executeUpdate(sql);
 
