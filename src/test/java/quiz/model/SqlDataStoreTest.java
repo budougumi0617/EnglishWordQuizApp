@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.mysql.jdbc.PreparedStatement;
-
 import quiz.Enum.Part;
 
 /**
@@ -174,12 +172,10 @@ public class SqlDataStoreTest {
 
 		try {
 
-			/** SqlDataStoreのConnectionの書き換え */
-			ps = SqlDataStore.class.getDeclaredField("ps");
-			ps.setAccessible(true);
-			ps.set(sds, new PreparedStatement(null, null) );
-
-
+//			/** SqlDataStoreのConnectionの書き換え */
+//			ps = SqlDataStore.class.getDeclaredField("ps");
+//			ps.setAccessible(true);
+//			ps.set(sds, new PreparedStatement(null, null) );
 
 			sds.close();
 
@@ -199,12 +195,12 @@ public class SqlDataStoreTest {
 		try {
 			ArrayList<EnglishWordBean> list = sds.getAll();
 
-			assertThat(list.get(1).getId(), is(6));
-			assertThat(list.get(2).getId(), is(5));
-			assertThat(list.get(3).getId(), is(4));
-			assertThat(list.get(4).getId(), is(3));
-			assertThat(list.get(5).getId(), is(2));
-			assertThat(list.get(6).getId(), is(1));
+			assertThat(list.get(0).getId(), is(1));
+//			assertThat(list.get(1).getId(), is(5));
+//			assertThat(list.get(2).getId(), is(4));
+//			assertThat(list.get(3).getId(), is(3));
+//			assertThat(list.get(4).getId(), is(2));
+//			assertThat(list.get(5).getId(), is(1));
 
 
 		} catch (Exception e) {
@@ -273,7 +269,7 @@ public class SqlDataStoreTest {
 			bean.setWord("dog");
 			bean.setMean("犬");
 
-			assertThat(sds.searchWord(bean).getId(), is(6));
+			assertThat(sds.searchWord(bean).getId(), is(4));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
