@@ -28,6 +28,17 @@ public class SendSerialData implements Output {
 	private final int BAUDRATE = 9600;
 
 	/**
+	 * @param commPort
+	 * @param result
+	 * @param answer
+	 */
+	public SendSerialData(String commPort, String result, String answer) {
+		this.commPort = commPort;
+		this.result = result;
+		this.answer = answer;
+	}
+
+	/**
 	 * 使用するCOMポートを取得するメソッド
 	 *
 	 * @throws java.lang.Exception
@@ -89,37 +100,9 @@ public class SendSerialData implements Output {
 	 */
 	@Override
 	public void close() throws Exception {
-		port.close();
-	}
-
-	/**
-	 * COMポート番号のセッターメソッド
-	 *
-	 * @param commPort
-	 *            String型 COMポート番号
-	 */
-	public void setCommPort(String commPort) {
-		this.commPort = commPort;
-	}
-
-	/**
-	 * 送信する正誤結果文字列データのセッターメソッド
-	 *
-	 * @param result
-	 *            String型 正誤結果
-	 */
-	public void setResultMessage(String result) {
-		this.result = result;
-	}
-
-	/**
-	 * 送信する解答英単語文字列データのセッターメソッド
-	 *
-	 * @param message
-	 *            String型 解答の英単語
-	 */
-	public void setAnswerWord(String answer) {
-		this.answer = answer;
+		if (port != null) {
+			port.close();
+		}
 	}
 
 }

@@ -3,13 +3,11 @@
  */
 package quiz;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,8 +47,6 @@ public class SendSerialDataTest {
 	@Mock
 	private OutputStream mockOutputStream;
 
-	private Field field;
-
 	/**
 	 * 初期設定
 	 *
@@ -58,7 +54,8 @@ public class SendSerialDataTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		ssd = new SendSerialData();
+
+		ssd = new SendSerialData("correct!", "goodbye", "COM1");
 
 		/** Mockitの作成 */
 		mockCommPort = mock(CommPort.class);
@@ -90,10 +87,6 @@ public class SendSerialDataTest {
 	public void testOpen() {
 		try {
 
-			ssd.setResultMessage("correct!");
-			ssd.setAnswerWord("goodbye");
-			ssd.setCommPort("COM1");
-
 			/* CommPortIdentifierのstaticメソッドを呼び出すためにMock化する */
 			PowerMockito.mockStatic(PortIdentifierWrapper.class);
 			when(PortIdentifierWrapper.getCommPort((String) anyObject())).thenReturn(mockSerialPort);
@@ -121,10 +114,6 @@ public class SendSerialDataTest {
 	@Test
 	public void testStream() {
 		try {
-			ssd.setResultMessage("correct!");
-			ssd.setAnswerWord("goodbye");
-			ssd.setCommPort("COM1");
-
 			when(mockSerialPort.getOutputStream()).thenReturn(mockOutputStream);
 
 			ssd.stream();
@@ -142,66 +131,8 @@ public class SendSerialDataTest {
 	@Test
 	public void testClose() {
 		try {
-			ssd.setResultMessage("correct!");
-			ssd.setAnswerWord("goodbye");
-			ssd.setCommPort("COM1");
-
 			ssd.close();
 
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
-	}
-
-	/**
-	 * 正常系テスト {@link quiz.SendSerialData#setCommPort()}
-	 *
-	 * @note 引数で受け取った値をメンバにセットできるか判定する
-	 */
-	@Test
-	public void testSetCommPort() {
-		try {
-			field = SendSerialData.class.getDeclaredField("commPort");
-			field.setAccessible(true);
-
-			ssd.setCommPort("COM1");
-			assertThat((String) field.get(ssd), is("COM1"));
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
-	}
-
-	/**
-	 * 正常系テスト {@link quiz.SendSerialData#setResultMessage(String)}
-	 *
-	 * @note 引数で受け取った値をメンバにセットできるか判定する
-	 */
-	@Test
-	public void testSetResultMessage() {
-		try {
-			field = SendSerialData.class.getDeclaredField("result");
-			field.setAccessible(true);
-
-			ssd.setResultMessage("correct!");
-			assertThat((String) field.get(ssd), is("correct!"));
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
-	}
-
-	/**
-	 * 正常系テスト {@link quiz.SendSerialData#setAnswerWord(String)}
-	 *
-	 * @note 引数で受け取った値をメンバにセットできるか判定する
-	 */
-	@Test
-	public void testSetAnswerWord() {
-		try {
-			field = SendSerialData.class.getDeclaredField("answer");
-			field.setAccessible(true);
-
-			ssd.setAnswerWord("goodbye");
-			assertThat((String) field.get(ssd), is("goodbye"));
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}

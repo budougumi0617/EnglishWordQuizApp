@@ -46,35 +46,34 @@ public class CheckMeanTest {
 	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 255文字以下
-	 * @note 期待戻り値 false
+	 * @note 期待戻り値 true
 	 */
 	@Test
 	public void testNoSpace() {
-		assertThat(cm.validate("確認する"), is(false));
+		assertThat(cm.validate("確認する"), is(true));
 	}
 
 	/**
 	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 255文字
-	 * @note 期待戻り値 false
+	 * @note 期待戻り値 true
 	 */
 	@Test
 	public void testNoSpaceMaxLength() {
-
 		String notOverSize = "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお";
 
-		assertThat(cm.validate(notOverSize), is(false));
+		assertThat(cm.validate(notOverSize), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 空白なし 256文字
-	 * @note 期待戻り値 true
+	 * @note 期待戻り値 false
 	 */
 	@Test
 	public void testNoSpaceOverMaxLength() {
@@ -84,41 +83,41 @@ public class CheckMeanTest {
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
 				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお" + "a";
 
-		assertThat(cm.validate(overSize), is(true));
+		assertThat(cm.validate(overSize), is(false));
 	}
 
 	/**
 	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角スペース、全角スペース、タブスペースを含む文字列
-	 * @note 期待戻り値 false
+	 * @note 期待戻り値 true
 	 */
 	@Test
 	public void testIncludeSpace() {
 
-		assertThat(cm.validate("あい う　え	お"), is(false));
+		assertThat(cm.validate("あい う　え	お"), is(true));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 半角スペース、全角スペース、タブスペースのみの文字列
-	 * @note 期待戻り値 true
+	 * @note 期待戻り値 false
 	 */
 	@Test
 	public void testOnrySpace() {
-		assertThat(cm.validate("   　　　		"), is(true));
+		assertThat(cm.validate("   　　　		"), is(false));
 	}
 
 	/**
-	 * 異常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
+	 * 正常系テスト {@link quiz.CheckMean#validate(java.lang.String)}
 	 *
 	 * @note 引数 null
-	 * @note 期待戻り値 true
+	 * @note 期待戻り値 false
 	 */
 	@Test
 	public void testGetNull() {
-		assertThat(cm.validate(null), is(true));
+		assertThat(cm.validate(null), is(false));
 	}
 
 }

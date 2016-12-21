@@ -304,7 +304,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 
 			doThrow(new NoSuchPortException()).when(mockSendSerialData).open();
 
@@ -333,7 +334,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new PortInUseException()).when(mockSendSerialData).open();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
@@ -362,7 +364,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new UnsupportedCommOperationException()).when(mockSendSerialData).open();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
@@ -390,7 +393,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new SQLException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
@@ -418,9 +422,8 @@ public class ControllerTest {
 			when(mockActionEvent.getSource()).thenReturn(mockJButton);
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
-			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
-			doThrow(new NumberFormatException()).when(mockSendSerialData).setCommPort((String) anyObject());
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenThrow(new NumberFormatException());
 
 			PowerMockito.mockStatic(ErrorDialog.class);
 
@@ -450,7 +453,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new InterruptedException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
@@ -478,7 +482,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new IOException()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);
@@ -536,7 +541,8 @@ public class ControllerTest {
 			when(mockJButton.getParent()).thenReturn(mockMainFrame);
 
 			SendSerialData mockSendSerialData = Mockito.mock(SendSerialData.class);
-			PowerMockito.whenNew(SendSerialData.class).withNoArguments().thenReturn(mockSendSerialData);
+			PowerMockito.whenNew(SendSerialData.class).withArguments(anyString(), anyString(), anyString())
+					.thenReturn(mockSendSerialData);
 			doThrow(new Exception()).when(mockSendSerialData).stream();
 
 			PowerMockito.mockStatic(ErrorDialog.class);

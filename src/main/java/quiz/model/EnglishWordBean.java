@@ -76,8 +76,8 @@ public class EnglishWordBean {
 	 * @return this EnglishWordBean自インスタンス *
 	 */
 	public EnglishWordBean setWord(String word) throws IllegalArgumentException {
-		if (checkWord.validate(word)) {
-			throw new IllegalArgumentException("英単語の入力値に異常値があります。");
+		if (!checkWord.validate(word)) {
+			throw new IllegalArgumentException("英単語は半角英字16文字までです。");
 		}
 		this.word = word;
 
@@ -129,9 +129,12 @@ public class EnglishWordBean {
 	 * @return this EnglishWordBean自インスタンス
 	 */
 	public EnglishWordBean setMean(String mean) throws IllegalArgumentException {
-		if (checkMean.validate(mean)) {
-			throw new IllegalArgumentException("英単語意味の入力値に異常値があります。");
+		if (!checkMean.validate(mean)) {
+			throw new IllegalArgumentException("意味を255文字以下で入力してください。（空欄、空白のみは不可）");
 		}
+
+
+
 		this.mean = mean;
 		return this;
 	}
@@ -161,7 +164,7 @@ public class EnglishWordBean {
 
 	@Override
 	public String toString() {
-		return getId() + ":" + getWord() + ":" + getPart() + ":" + getMean();
+		return id + ":" + word + ":" + part.toString() + ":" + mean;
 	}
 
 }

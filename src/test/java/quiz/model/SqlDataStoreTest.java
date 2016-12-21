@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import quiz.Enum.Part;
 
 /**
@@ -44,11 +46,14 @@ public class SqlDataStoreTest {
 	/** Connectionnクラスのリフレクション */
 	private java.lang.reflect.Field con;
 
+	/** Connectionnクラスのリフレクション */
+	private java.lang.reflect.Field ps;
+
 	/** DBUnitテスト用Connection */
 	private IDatabaseConnection dbconn;
 
-	/** テストデータバックアップファイル */
-	private File file;
+	// /** テストデータバックアップファイル */
+	// private File file;
 
 	/** テスト対象MySQLデータストアクラス */
 	private SqlDataStore sds;
@@ -168,6 +173,14 @@ public class SqlDataStoreTest {
 	public void testClose() {
 
 		try {
+
+			/** SqlDataStoreのConnectionの書き換え */
+			ps = SqlDataStore.class.getDeclaredField("ps");
+			ps.setAccessible(true);
+			ps.set(sds, new PreparedStatement(null, null) );
+
+
+
 			sds.close();
 
 		} catch (Exception e) {
@@ -186,7 +199,13 @@ public class SqlDataStoreTest {
 		try {
 			ArrayList<EnglishWordBean> list = sds.getAll();
 
-			assertThat(list.size(), is(4));
+			assertThat(list.get(1).getId(), is(6));
+			assertThat(list.get(2).getId(), is(5));
+			assertThat(list.get(3).getId(), is(4));
+			assertThat(list.get(4).getId(), is(3));
+			assertThat(list.get(5).getId(), is(2));
+			assertThat(list.get(6).getId(), is(1));
+
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -208,8 +227,6 @@ public class SqlDataStoreTest {
 			bean.setMean("サッカー");
 
 			sds.insert(bean);
-
-			assertThat(sds.getAll().size(), is(5));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -234,13 +251,9 @@ public class SqlDataStoreTest {
 		try {
 			EnglishWordBean bean = new EnglishWordBean();
 
-			bean.setWord("cat");
-			bean.setPart(Part.getPart("名詞"));
-			bean.setMean("ねこ");
+			bean.setId(1);
 
 			sds.delete(bean);
-
-			assertThat(sds.getAll().size(), is(3));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -257,10 +270,10 @@ public class SqlDataStoreTest {
 		try {
 			EnglishWordBean bean = new EnglishWordBean();
 
-			bean.setWord("cat");
-			bean.setMean("ねこ");
+			bean.setWord("dog");
+			bean.setMean("犬");
 
-			assertNotNull(sds.searchWord(bean));
+			assertThat(sds.searchWord(bean).getId(), is(6));
 
 		} catch (Exception e) {
 			fail(e.getMessage());

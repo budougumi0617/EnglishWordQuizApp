@@ -32,7 +32,7 @@ public class ManageDialog extends JDialog implements Observer {
 	/** ボタンアクションコントローラー */
 	private Controller ctrl;
 	/** 全英単語表示テーブル */
-	private JTable tbData;
+	private JTable tbData = new JTable();
 	/** 英単語全データリスト */
 	private ArrayList<EnglishWordBean> list;
 	/** 英単語全データ保持モデル */
@@ -119,8 +119,7 @@ public class ManageDialog extends JDialog implements Observer {
 					new String[] { list.get(i).getWord(), list.get(i).getPart().toString(), list.get(i).getMean() });
 		}
 
-
-		tbData = new JTable(model);
+		tbData.setModel(model);
 
 		// 列幅調整を設定
 		tbData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -156,6 +155,7 @@ public class ManageDialog extends JDialog implements Observer {
 	/**
 	 * Observableクラスから通知を受けた際に動作するメソッド
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		setDataTable((ArrayList<EnglishWordBean>) arg);

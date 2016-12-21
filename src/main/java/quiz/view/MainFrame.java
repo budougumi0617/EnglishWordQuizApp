@@ -129,7 +129,7 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * 英単語管理ボタン押下時に出題欄を初期化する
+	 * 出題欄、解答欄、クイズ誘導文の表示を初期化する
 	 */
 	public void clearLabelText() {
 		lbQuiz.setText("");
@@ -141,12 +141,11 @@ public class MainFrame extends JFrame {
 	 * 出題ボタン押下時に問題をGUI上に表示する
 	 *
 	 * @param bean
-	 *            データストアから受けとったクイズデータ
+	 *            クイズデータ
 	 */
 	public void setLabelText(EnglishWordBean bean) {
 		lbQuiz.setText("問題の意味に合った英単語を解答欄に入力してください。");
 		tfQuizBox.setText(bean.getMean());
-		tfAnswerBox.setText("");
 	}
 
 	/**

@@ -3,6 +3,8 @@
  */
 package quiz.Enum;
 
+import java.util.Arrays;
+
 /**
  * 品詞の列挙型を定義
  *
@@ -24,7 +26,12 @@ public enum Part {
 		this.name = name;
 	}
 
-	/** メソッドのオーバーライド */
+	/**
+	 * toStringメソッドのオーバーライド
+	 *
+	 * enum定数の識別子を返す
+	 *
+	 */
 	public String toString() {
 		return name;
 	}
@@ -33,17 +40,11 @@ public enum Part {
 	 * 品詞名に一致するPart変数を返す
 	 *
 	 * @param input
-	 *            入力された品詞名
-	 * @return 入力値に一致するPart変数、該当しなかった場合はnullを返す
+	 *            enum定数の識別子
+	 * @return 識別子が一致するenum定数、該当しなかった場合はnullを返す
 	 */
-	public static Part getPart(String input) {
-		Part[] parts = Part.values();
-		for (Part part : parts) {
-			if (part.toString().equals(input)) {
-				return part;
-			}
-		}
-		return null;
+	public static Part getPart(String input){
+		return Arrays.stream(Part.values()).filter(e -> e.toString().equals(input)).findFirst().get();
 	}
 
 }

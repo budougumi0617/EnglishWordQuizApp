@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class ErrorDialog extends JOptionPane {
 
 	/**
-	 * エラーダイアログを生成するメソッド
+	 * エラーメッセージ表示ダイアログを生成するメソッド
 	 *
 	 * @param errorMessage
 	 *            String型 エラー内容のメッセージ
