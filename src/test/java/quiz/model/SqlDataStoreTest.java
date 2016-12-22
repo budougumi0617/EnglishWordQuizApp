@@ -9,7 +9,9 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.dbunit.database.DatabaseConfig;
@@ -21,9 +23,9 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import quiz.Enum.Part;
 
 /**
@@ -55,6 +57,16 @@ public class SqlDataStoreTest {
 
 	/** テスト対象MySQLデータストアクラス */
 	private SqlDataStore sds;
+
+	/** 使用テーブル名 */
+	private final String table = "englishword";
+
+	/** テーブルカラム名 */
+	private final String id = "id";
+	private final String word = "word";
+	private final String part = "part";
+	private final String mean = "mean";
+	private final String update = "updated_at";
 
 	/**
 	 * 初期設定
@@ -172,10 +184,10 @@ public class SqlDataStoreTest {
 
 		try {
 
-//			/** SqlDataStoreのConnectionの書き換え */
-//			ps = SqlDataStore.class.getDeclaredField("ps");
-//			ps.setAccessible(true);
-//			ps.set(sds, new PreparedStatement(null, null) );
+			// /** SqlDataStoreのConnectionの書き換え */
+			// ps = SqlDataStore.class.getDeclaredField("ps");
+			// ps.setAccessible(true);
+			// ps.set(sds, new PreparedStatement(null, null) );
 
 			sds.close();
 
@@ -195,13 +207,12 @@ public class SqlDataStoreTest {
 		try {
 			ArrayList<EnglishWordBean> list = sds.getAll();
 
-			assertThat(list.get(0).getId(), is(1));
-//			assertThat(list.get(1).getId(), is(5));
-//			assertThat(list.get(2).getId(), is(4));
-//			assertThat(list.get(3).getId(), is(3));
-//			assertThat(list.get(4).getId(), is(2));
-//			assertThat(list.get(5).getId(), is(1));
-
+			assertThat(list.get(0).getId(), is(6));
+			assertThat(list.get(1).getId(), is(5));
+			assertThat(list.get(2).getId(), is(4));
+			assertThat(list.get(3).getId(), is(3));
+			assertThat(list.get(4).getId(), is(2));
+			assertThat(list.get(5).getId(), is(1));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -216,13 +227,34 @@ public class SqlDataStoreTest {
 	@Test
 	public void testInsert() {
 		try {
-			EnglishWordBean bean = new EnglishWordBean();
-
-			bean.setWord("soccer");
-			bean.setPart(Part.getPart("名詞"));
-			bean.setMean("サッカー");
+			EnglishWordBean bean = new EnglishWordBean().setId(7).setWord("soccer").setPart(Part.getPart("名詞"))
+					.setMean("サッカー");
 
 			sds.insert(bean);
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
+			java.sql.Connection connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", password);
+
+			String sql = "select * from " + table + " order by " + update + " desc ";
+
+			Statement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery(sql);
+
+			ArrayList<EnglishWordBean> allData = new ArrayList<EnglishWordBean>();
+
+			/* データ格納 */
+			while (rs.next()) {
+				allData.add(new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+						.setUpdateTime(rs.getTimestamp(update)));
+			}
+
+			assertThat(allData.size(), is(7));
+			assertThat(allData.get(3).getId(), is(4));
+			assertThat(allData.get(6).getId(), is(1));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -251,6 +283,30 @@ public class SqlDataStoreTest {
 
 			sds.delete(bean);
 
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
+			java.sql.Connection connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", password);
+
+			String sql = "select * from " + table + " order by " + update + " desc ";
+
+			Statement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery(sql);
+
+			ArrayList<EnglishWordBean> allData = new ArrayList<EnglishWordBean>();
+
+			/* データ格納 */
+			while (rs.next()) {
+				allData.add(new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+						.setUpdateTime(rs.getTimestamp(update)));
+			}
+
+			assertThat(allData.size(), is(5));
+			assertThat(allData.get(0).getId(), is(6));
+			assertThat(allData.get(4).getId(), is(2));
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -269,7 +325,7 @@ public class SqlDataStoreTest {
 			bean.setWord("dog");
 			bean.setMean("犬");
 
-			assertThat(sds.searchWord(bean).getId(), is(4));
+			assertThat(sds.searchWord(bean).getId(), is(5));
 
 		} catch (Exception e) {
 			fail(e.getMessage());

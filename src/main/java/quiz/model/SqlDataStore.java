@@ -68,8 +68,10 @@ public class SqlDataStore extends Observable implements DataStore {
 		/* JDBCドライバをロード */
 		Class.forName(driver);
 
-		/* DBに接続 */
-		con = DriverManager.getConnection(jdbc, user, pass);
+		if (con == null) {
+			/* DBに接続 */
+			con = DriverManager.getConnection(jdbc, user, pass);
+		}
 
 	}
 
@@ -110,19 +112,24 @@ public class SqlDataStore extends Observable implements DataStore {
 
 		String sql = "select * from " + table + " order by " + update + " desc ";
 
-		ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery(sql);
+		if (con != null) {
+			ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery(sql);
 
-		ArrayList<EnglishWordBean> allData = new ArrayList<EnglishWordBean>();
+			ArrayList<EnglishWordBean> allData = new ArrayList<EnglishWordBean>();
 
-		/* データ格納 */
-		while (rs.next()) {
-			allData.add(new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-					.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-					.setUpdateTime(rs.getTimestamp(update)));
+			/* データ格納 */
+			while (rs.next()) {
+				allData.add(new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+						.setUpdateTime(rs.getTimestamp(update)));
+			}
+
+			return allData;
+
+		} else {
+			throw new IllegalStateException("接続が確立されていません。");
 		}
-
-		return allData;
 	}
 
 	/**
@@ -138,16 +145,21 @@ public class SqlDataStore extends Observable implements DataStore {
 	 */
 	@Override
 	public void insert(EnglishWordBean bean) throws Exception {
+
 		String sql = "insert into " + table + " ( " + word + ", " + part + ", " + mean + " ) values ( '"
 				+ bean.getWord() + "' , '" + bean.getPart().toString() + "' , '" + bean.getMean() + "' )";
 
-		ps = con.createStatement();
-		ps.executeUpdate(sql);
+		if (con != null) {
+			ps = con.createStatement();
+			ps.executeUpdate(sql);
 
-		/** 変更通知をObserverへ出す */
-		setChanged();
-		notifyObservers(getAll());
-		clearChanged();
+			/** 変更通知をObserverへ出す */
+			setChanged();
+			notifyObservers(getAll());
+			clearChanged();
+		} else {
+			throw new IllegalStateException("接続が確立されていません。");
+		}
 
 	}
 
@@ -182,13 +194,17 @@ public class SqlDataStore extends Observable implements DataStore {
 	public void delete(EnglishWordBean bean) throws Exception {
 		String sql = "delete from " + table + " where " + id + " = '" + bean.getId() + "'";
 
-		ps = con.createStatement();
-		ps.executeUpdate(sql);
+		if (con != null) {
+			ps = con.createStatement();
+			ps.executeUpdate(sql);
 
-		/** 変更通知をObserverへ出す */
-		setChanged();
-		notifyObservers(getAll());
-		clearChanged();
+			/** 変更通知をObserverへ出す */
+			setChanged();
+			notifyObservers(getAll());
+			clearChanged();
+		} else {
+			throw new IllegalStateException("接続が確立されていません。");
+		}
 	}
 
 	/**
@@ -207,22 +223,33 @@ public class SqlDataStore extends Observable implements DataStore {
 	@Override
 	public EnglishWordBean searchWord(EnglishWordBean bean) throws Exception {
 
+		String sql;
 
-
-		String sql = "select * from " + table + " where word like '" + bean.getWord() + "' " + " and mean like '%"
-				+ bean.getMean() + "%'  order by " + update + " desc limit 1 ";
-
-		ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery(sql);
-
-		/* データ表示 */
-		if (rs.next()) {
-			return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-					.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-					.setUpdateTime(rs.getTimestamp(update));
+		if (bean.getPart() == null) {
+			sql = "select * from " + table + " where word like '" + bean.getWord() + "' and mean like '%"
+					+ bean.getMean().replaceAll("%", "\\%") + "%'  order by " + update + " desc limit 1 ";
+		} else {
+			sql = "select * from " + table + " where word like '" + bean.getWord() + "' and part like '"
+					+ bean.getPart().toString() + "' and mean like '%" + bean.getMean().replaceAll("%", "\\%")
+					+ "%'  order by " + update + " desc limit 1 ";
 		}
 
-		return null;
+		if (con != null) {
+			ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery(sql);
+
+			/* データ表示 */
+			if (rs.next()) {
+				return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+						.setUpdateTime(rs.getTimestamp(update));
+			}
+
+			return null;
+
+		} else {
+			throw new IllegalStateException("接続が確立されていません。");
+		}
 	}
 
 	/**
@@ -239,16 +266,21 @@ public class SqlDataStore extends Observable implements DataStore {
 	public EnglishWordBean getRandom() throws Exception {
 		String sql = "select * from " + table + " order by rand() limit 1 ";
 
-		ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery(sql);
+		if (con != null) {
+			ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery(sql);
 
-		if (rs.next()) {
-			return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-					.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-					.setUpdateTime(rs.getTimestamp(update));
+			if (rs.next()) {
+				return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+						.setUpdateTime(rs.getTimestamp(update));
+			}
+
+			return null;
+
+		} else {
+			throw new IllegalStateException("接続が確立されていません。");
 		}
-
-		return null;
 	}
 
 	/**
@@ -260,7 +292,5 @@ public class SqlDataStore extends Observable implements DataStore {
 	public void addObserver(Observer o) {
 		super.addObserver(o);
 	};
-
-
 
 }

@@ -136,10 +136,6 @@ public class Controller {
 					&& SwingUtilities.getRoot((Component) ae.getSource()) instanceof MainFrame) {
 				MainFrame mf = (MainFrame) (SwingUtilities.getRoot((JButton) (ae.getSource())));
 
-				data.open();
-				mf.setLabelText(data.getRandom());
-				data.close();
-
 				/** 検索対象データ取得 */
 				EnglishWordBean bean = mf.getBean();
 
