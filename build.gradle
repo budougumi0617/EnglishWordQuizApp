@@ -23,12 +23,29 @@ jar {
 
 repositories {
     mavenCentral()
+        maven {
+        url "https://mvnrepository.com/artifact/org.rxtx/rxtx"
+        url "https://mvnrepository.com/artifact/org.powermock/powermock-mockito-release-full"
+        url "https://mvnrepository.com/artifact/mysql/mysql-connector-java"
+        url "https://mvnrepository.com/artifact/org.dbunit/dbunit"
+        url "https://mvnrepository.com/artifact/org.slf4j/slf4j-api"
+        url "https://mvnrepository.com/artifact/org.slf4j/slf4j-simple"
+    }
 }
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-all:1.9.5'
+    compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+
+    testCompile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    testCompile group: 'org.powermock', name: 'powermock-mockito-release-full', version: '1.6.4'
+    testCompile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+
+    testCompile group: 'org.dbunit', name: 'dbunit', version: '2.4.9'
+    testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.5'
 }
 
 test {
@@ -52,3 +69,7 @@ jacocoTestReport {
 }
 
 cobertura.coverageFormats = ['html', 'xml']
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

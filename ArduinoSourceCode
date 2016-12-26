@@ -1,0 +1,40 @@
+#include <LiquidCrystal.h>
+#define MAX_RECEIVE_SIZE 65
+
+LiquidCrystal lcd = LiquidCrystal(5, 6, 7, 8, 9, 10, 11);
+int counter = 0;
+int i;
+char buff[MAX_RECEIVE_SIZE];
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+}
+
+void loop() {
+
+  if (Serial.available() > 0) {
+    char data = Serial.read();
+
+    if (data != '\0') {
+       if(data == '\n'){
+           lcd.clear();
+           lcd.print(buff);
+           lcd.setCursor(0, 1);
+           for (i = 0 ; i < counter ; i++ ) {
+              buff[i] = '\0';
+           }
+           counter = 0;
+        }else{
+           buff[counter] = data;
+           counter++;
+        }
+    } else {
+      lcd.print(buff);
+      for (i = 0 ; i < counter ; i++ ) {
+        buff[i] = '\0';
+      }
+      counter = 0;
+    }
+  }
+}
