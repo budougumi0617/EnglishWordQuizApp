@@ -6,6 +6,7 @@ package quiz.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -92,6 +93,7 @@ public class SqlDataStore extends Observable implements DataStore {
 
 		if (con != null) {
 			con.close();
+			con = null;
 		}
 	}
 
@@ -120,9 +122,7 @@ public class SqlDataStore extends Observable implements DataStore {
 
 			/* データ格納 */
 			while (rs.next()) {
-				allData.add(new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-						.setUpdateTime(rs.getTimestamp(update)));
+				allData.add(getBean(rs));
 			}
 
 			return allData;
@@ -238,13 +238,9 @@ public class SqlDataStore extends Observable implements DataStore {
 			ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery(sql);
 
-			/* データ表示 */
 			if (rs.next()) {
-				return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-						.setUpdateTime(rs.getTimestamp(update));
+				return getBean(rs);
 			}
-
 			return null;
 
 		} else {
@@ -271,11 +267,8 @@ public class SqlDataStore extends Observable implements DataStore {
 			ResultSet rs = ps.executeQuery(sql);
 
 			if (rs.next()) {
-				return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
-						.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
-						.setUpdateTime(rs.getTimestamp(update));
+				return getBean(rs);
 			}
-
 			return null;
 
 		} else {
@@ -292,5 +285,24 @@ public class SqlDataStore extends Observable implements DataStore {
 	public void addObserver(Observer o) {
 		super.addObserver(o);
 	};
+
+	/**
+	 * sql文で受け取ったデータからデータ1件分のEnglishWordBeanのインスタンスを返す
+	 *
+	 * @param rs
+	 *            SQL文により受けとったデータ
+	 * @return EnglishWordBean データ1件を格納したBean
+	 * @throws IllegalArgumentException
+	 *             不正な引数を受け取った際の例外
+	 * @throws SQLException
+	 *             SQLに関連する例外
+	 */
+	public EnglishWordBean getBean(ResultSet rs) throws IllegalArgumentException, SQLException {
+
+		return new EnglishWordBean().setId(rs.getInt(id)).setWord(rs.getString(word))
+				.setPart(Part.getPart(rs.getString(part))).setMean(rs.getString(mean))
+				.setUpdateTime(rs.getTimestamp(update));
+
+	}
 
 }

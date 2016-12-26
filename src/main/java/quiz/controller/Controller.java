@@ -92,6 +92,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog("単語が登録されていません。");
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 	}
 
@@ -120,6 +128,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog("DBアクセスエラーが発生しました。");
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 	}
 
@@ -178,6 +194,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog("問題、入力欄を再確認してください。英単語は半角英字16文字までです。");
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 
 	}
@@ -230,6 +254,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog("削除する英単語を選択してください。");
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 	}
 
@@ -258,6 +290,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog(e.getMessage());
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 
 	}
@@ -292,6 +332,14 @@ public class Controller {
 			ErrorDialog.showErrorDialog(e.getMessage());
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
+		} finally {
+			if (data != null) {
+				try {
+					data.close();
+				} catch (Exception e) {
+					ErrorDialog.showErrorDialog("エラーが発生しました。");
+				}
+			}
 		}
 
 	}
