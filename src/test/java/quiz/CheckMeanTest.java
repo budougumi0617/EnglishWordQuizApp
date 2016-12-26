@@ -61,12 +61,72 @@ public class CheckMeanTest {
 	 */
 	@Test
 	public void testNoSpaceMaxLength() {
-		String notOverSize = "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお";
 
-		assertThat(cm.validate(notOverSize), is(true));
+		StringBuilder notOverSize = new StringBuilder();
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+		notOverSize.append("あいうえお");
+
+		notOverSize.append("あいうえお");
+
+		assertThat(cm.validate(notOverSize.toString()), is(true));
 	}
 
 	/**
@@ -78,12 +138,72 @@ public class CheckMeanTest {
 	@Test
 	public void testNoSpaceOverMaxLength() {
 
-		String overSize = "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえおあいうえおあいうえおあいうえおあいうえお"
-				+ "あいうえおあいうえおあいうえおあいうえおあいうえお" + "あいうえお" + "a";
+		StringBuilder overSize = new StringBuilder();
 
-		assertThat(cm.validate(overSize), is(false));
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+		overSize.append("あいうえお");
+
+		overSize.append("あいうえお");
+		overSize.append("あ");
+
+		assertThat(cm.validate(overSize.toString()), is(false));
 	}
 
 	/**
