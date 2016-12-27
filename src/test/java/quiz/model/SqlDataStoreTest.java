@@ -23,9 +23,9 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import quiz.Enum.Part;
 
 /**
