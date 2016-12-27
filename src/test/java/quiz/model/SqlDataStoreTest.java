@@ -113,7 +113,7 @@ public class SqlDataStoreTest {
 		Class.forName("com.mysql.jdbc.Driver");
 
 		String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
-		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root",
+		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&useSSL=false", "root",
 				password);
 	}
 

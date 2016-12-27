@@ -37,7 +37,7 @@ public class SqlDataStore extends Observable implements DataStore {
 	private final String driver = "com.mysql.jdbc.Driver";
 
 	/** 接続先DB */
-	private final String jdbc = "jdbc:mysql://localhost/englishwordquiz?useUnicode=true&characterEncoding=utf8";
+	private final String jdbc = "jdbc:mysql://localhost/englishwordquiz?useUnicode=true&characterEncoding=utf8&useSSL=false";
 	/** 接続ユーザー名 */
 	private final String user = "root";
 	/** 接続パスワード */
