@@ -6,6 +6,8 @@ package quiz;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
+import java.util.stream.IntStream;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,67 +66,7 @@ public class CheckMeanTest {
 
 		StringBuilder notOverSize = new StringBuilder();
 
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-		notOverSize.append("あいうえお");
-
-		notOverSize.append("あいうえお");
+		IntStream.range(0, 51).forEach(i -> notOverSize.append("あいうえお"));
 
 		assertThat(cm.validate(notOverSize.toString()), is(true));
 	}
@@ -140,67 +82,7 @@ public class CheckMeanTest {
 
 		StringBuilder overSize = new StringBuilder();
 
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-		overSize.append("あいうえお");
-
-		overSize.append("あいうえお");
+		IntStream.range(0, 51).forEach(i -> overSize.append("あいうえお"));
 		overSize.append("あ");
 
 		assertThat(cm.validate(overSize.toString()), is(false));
