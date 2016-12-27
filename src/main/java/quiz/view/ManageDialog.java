@@ -121,8 +121,9 @@ public class ManageDialog extends JDialog implements Observer {
 
 		tbData.setModel(model);
 
-		// 列幅調整を設定
+		// 列幅調整・データの選択を設定
 		tbData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 
 		// 列幅、最小列幅、最大列幅を設定
 		DefaultTableColumnModel tcm = (DefaultTableColumnModel) tbData.getColumnModel();
@@ -159,6 +160,7 @@ public class ManageDialog extends JDialog implements Observer {
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		setDataTable((ArrayList<EnglishWordBean>) arg);
+		tbData.setRowSelectionInterval(0, 0);
 		repaint();
 	}
 

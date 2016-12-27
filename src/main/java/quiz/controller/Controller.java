@@ -93,12 +93,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 	}
@@ -129,12 +127,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 	}
@@ -195,12 +191,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
@@ -255,12 +249,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 	}
@@ -289,14 +281,12 @@ public class Controller {
 		} catch (IllegalArgumentException e) {
 			ErrorDialog.showErrorDialog(e.getMessage());
 		} catch (Exception e) {
-			ErrorDialog.showErrorDialog("エラーが発生しました。");
+			ErrorDialog.showErrorDialog("エラーが発生しました。" + e);
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
@@ -333,12 +323,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
