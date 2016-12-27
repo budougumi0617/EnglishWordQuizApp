@@ -226,12 +226,20 @@ public class SqlDataStore extends Observable implements DataStore {
 		String sql;
 
 		if (bean.getPart() == null) {
+
+			/* 答え合わせに使うSQL文
+			 * 入力値に該当する英単語、出題文の意味を含む意味に該当するデータを検索
+			 */
 			sql = "select * from " + table + " where word like '" + bean.getWord() + "' and mean like '%"
 					+ bean.getMean().replaceAll("%", "\\%") + "%'  order by " + update + " desc limit 1 ";
 		} else {
+
+
+			/* 重複判定に使うSQL文
+			 * 入力値に該当する英単語、品詞に該当するデータを検索
+			 */
 			sql = "select * from " + table + " where word like '" + bean.getWord() + "' and part like '"
-					+ bean.getPart().toString() + "' and mean like '%" + bean.getMean().replaceAll("%", "\\%")
-					+ "%'  order by " + update + " desc limit 1 ";
+					+ bean.getPart().toString() + "' order by " + update + " desc limit 1 ";
 		}
 
 		if (con != null) {
