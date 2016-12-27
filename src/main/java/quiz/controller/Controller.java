@@ -266,7 +266,12 @@ public class Controller {
 	public void btAddAction(ActionEvent ae) {
 
 		try {
-			if (data.searchWord(addDialog.getBean()) != null) {
+
+			data.open();
+			EnglishWordBean bean = data.searchWord(addDialog.getBean());
+			data.close();
+
+			if (bean != null) {
 				ErrorDialog.showErrorDialog("入力データは既に登録されています。");
 			} else {
 				data.open();
