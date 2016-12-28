@@ -113,8 +113,8 @@ public class SqlDataStoreTest {
 		Class.forName("com.mysql.jdbc.Driver");
 
 		String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
-		return DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&useSSL=false", "root",
-				password);
+		return DriverManager.getConnection(
+				"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&useSSL=false", "root", password);
 	}
 
 	/**
@@ -236,7 +236,8 @@ public class SqlDataStoreTest {
 
 			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
 			java.sql.Connection connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", password);
+					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&useSSL=false", "root",
+					password);
 
 			String sql = "select * from " + table + " order by " + update + " desc ";
 
@@ -287,7 +288,8 @@ public class SqlDataStoreTest {
 
 			String password = System.getProperty("os.name").toLowerCase().matches(".*windows.*") ? "root" : "";
 			java.sql.Connection connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8", "root", password);
+					"jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&useSSL=false", "root",
+					password);
 
 			String sql = "select * from " + table + " order by " + update + " desc ";
 
@@ -318,14 +320,36 @@ public class SqlDataStoreTest {
 	 * @note testDBのenglishwordテーブルからデータを1件検索できるか確認
 	 */
 	@Test
-	public void testSearchWord() {
+	public void testSearchAnswerWord() {
 		try {
 			EnglishWordBean bean = new EnglishWordBean();
 
 			bean.setWord("dog");
 			bean.setMean("犬");
 
+			/* 該当データのうち、更新日時が最も最新のデータを呼べるか確認 */
 			assertThat(sds.searchWord(bean).getId(), is(5));
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * 正常系テスト {@link quiz.model.SqlDataStore#searchWord()} のためのテスト・メソッド。
+	 *
+	 * @note testDBのenglishwordテーブルからデータを1件検索できるか確認
+	 */
+	@Test
+	public void testSearchDuplicateWord() {
+		try {
+			EnglishWordBean bean = new EnglishWordBean();
+
+			bean.setWord("dog");
+			bean.setPart(Part.getPart("名詞"));
+
+			/* 該当データを取り出せるか確認 */
+			assertThat(sds.searchWord(bean).getId(), is(4));
 
 		} catch (Exception e) {
 			fail(e.getMessage());
