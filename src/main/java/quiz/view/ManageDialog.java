@@ -98,7 +98,9 @@ public class ManageDialog extends JDialog implements Observer {
 	 */
 	public void showDialog(ArrayList<EnglishWordBean> list) {
 		setDataTable(list);
-		tbData.setRowSelectionInterval(0, 0);
+		if (list.size() != 0) {
+			tbData.setRowSelectionInterval(0, 0);
+		}
 		setVisible(true);
 	}
 
@@ -115,13 +117,16 @@ public class ManageDialog extends JDialog implements Observer {
 		model = new DefaultTableModel(new String[] { "英単語", "品詞", "意味" }, 0);
 
 		for (int i = 0; i < list.size(); i++) {
-			model.addRow(
-					new String[] { list.get(i).getWord(), list.get(i).getPart().toString(), list.get(i).getMean() });
+
+			String mean = list.get(i).getMean();
+
+			model.addRow(new String[] { list.get(i).getWord(), list.get(i).getPart().toString(),
+					mean.replaceAll("\t", "    ") });
 		}
 
 		tbData.setModel(model);
 
-		// 列幅調整を設定
+		// 列幅調整
 		tbData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		// 列幅、最小列幅、最大列幅を設定
@@ -142,7 +147,7 @@ public class ManageDialog extends JDialog implements Observer {
 	}
 
 	/**
-	 * 入力されているデータを渡すメソッド
+	 * 選択されているデータを渡すメソッド
 	 *
 	 * @return bean EnglishWordBean 入力値データ
 	 */
@@ -158,7 +163,14 @@ public class ManageDialog extends JDialog implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(java.util.Observable o, Object arg) {
+		int row = tbData.getSelectedRow();
+
 		setDataTable((ArrayList<EnglishWordBean>) arg);
+		if (list.size() != 0 && list.size() > row) {
+			tbData.setRowSelectionInterval(row, row);
+		} else if (list.size() != 0 && list.size() == row) {
+			tbData.setRowSelectionInterval(0, 0);
+		}
 		repaint();
 	}
 

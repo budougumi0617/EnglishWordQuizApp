@@ -81,7 +81,6 @@ public class Controller {
 
 				data.open();
 				mf.setLabelText(data.getRandom());
-				data.close();
 
 			} else {
 				throw new UnsupportedOperationException("イベント発生箇所に問題があります。");
@@ -93,12 +92,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 	}
@@ -119,7 +116,6 @@ public class Controller {
 				mf.clearLabelText();
 				data.open();
 				manageDialog.showDialog(data.getAll());
-				data.close();
 
 			} else {
 				throw new UnsupportedOperationException("イベント発生箇所に問題があります。");
@@ -129,12 +125,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 	}
@@ -160,13 +154,10 @@ public class Controller {
 
 				data.open();
 				EnglishWordBean answerBean = data.searchWord(bean);
-				data.close();
 
 				if (answerBean == null) {
 
-					data.open();
 					answerBean = data.searchWord(bean.setWord("%"));
-					data.close();
 
 					result = "Incorrect!";
 				}
@@ -195,12 +186,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
@@ -254,15 +243,8 @@ public class Controller {
 			ErrorDialog.showErrorDialog("削除する英単語を選択してください。");
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
-		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
-			}
 		}
+
 	}
 
 	/**
@@ -274,12 +256,14 @@ public class Controller {
 	public void btAddAction(ActionEvent ae) {
 
 		try {
-			if (data.searchWord(addDialog.getBean()) != null) {
+
+			data.open();
+			EnglishWordBean bean = data.searchWord(addDialog.getBean());
+
+			if (bean != null) {
 				ErrorDialog.showErrorDialog("入力データは既に登録されています。");
 			} else {
-				data.open();
 				data.insert(addDialog.getBean());
-				data.close();
 			}
 
 			addDialog.setVisible(false);
@@ -289,14 +273,12 @@ public class Controller {
 		} catch (IllegalArgumentException e) {
 			ErrorDialog.showErrorDialog(e.getMessage());
 		} catch (Exception e) {
-			ErrorDialog.showErrorDialog("エラーが発生しました。");
+			ErrorDialog.showErrorDialog("エラーが発生しました。" + e);
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
@@ -322,7 +304,6 @@ public class Controller {
 		try {
 			data.open();
 			data.delete(bean);
-			data.close();
 
 			addDialog.setVisible(false);
 
@@ -333,12 +314,10 @@ public class Controller {
 		} catch (Exception e) {
 			ErrorDialog.showErrorDialog("エラーが発生しました。");
 		} finally {
-			if (data != null) {
-				try {
-					data.close();
-				} catch (Exception e) {
-					ErrorDialog.showErrorDialog("エラーが発生しました。");
-				}
+			try {
+				data.close();
+			} catch (Exception e) {
+				ErrorDialog.showErrorDialog("エラーが発生しました。");
 			}
 		}
 
