@@ -117,8 +117,11 @@ public class ManageDialog extends JDialog implements Observer {
 		model = new DefaultTableModel(new String[] { "英単語", "品詞", "意味" }, 0);
 
 		for (int i = 0; i < list.size(); i++) {
-			model.addRow(
-					new String[] { list.get(i).getWord(), list.get(i).getPart().toString(), list.get(i).getMean() });
+
+			String mean = list.get(i).getMean();
+
+			model.addRow(new String[] { list.get(i).getWord(), list.get(i).getPart().toString(),
+					mean.replaceAll("\t", "    ") });
 		}
 
 		tbData.setModel(model);
@@ -144,7 +147,7 @@ public class ManageDialog extends JDialog implements Observer {
 	}
 
 	/**
-	 * 入力されているデータを渡すメソッド
+	 * 選択されているデータを渡すメソッド
 	 *
 	 * @return bean EnglishWordBean 入力値データ
 	 */
