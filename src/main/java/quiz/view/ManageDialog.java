@@ -160,8 +160,12 @@ public class ManageDialog extends JDialog implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(java.util.Observable o, Object arg) {
+		int row = tbData.getSelectedRow();
+
 		setDataTable((ArrayList<EnglishWordBean>) arg);
-		if (list.size() != 0) {
+		if (list.size() != 0 && list.size() > row) {
+			tbData.setRowSelectionInterval(row, row);
+		} else if (list.size() != 0 && list.size() == row) {
 			tbData.setRowSelectionInterval(0, 0);
 		}
 		repaint();
