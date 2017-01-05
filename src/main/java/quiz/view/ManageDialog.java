@@ -163,14 +163,44 @@ public class ManageDialog extends JDialog implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(java.util.Observable o, Object arg) {
+		/** 処理が行われる前の選択行 */
 		int row = tbData.getSelectedRow();
 
-		setDataTable((ArrayList<EnglishWordBean>) arg);
-		if (list.size() != 0 && list.size() > row) {
-			tbData.setRowSelectionInterval(row, row);
-		} else if (list.size() != 0 && list.size() == row) {
-			tbData.setRowSelectionInterval(0, 0);
+		/**
+		 * 追加処理実行後の動作
+		 *
+		 * リスト上で追加したデータを選択する
+		 */
+		if (((ArrayList<EnglishWordBean>) arg).size() > list.size()) {
+
+			setDataTable((ArrayList<EnglishWordBean>) arg);
+			if (list.size() > 0) {
+				tbData.setRowSelectionInterval(0, 0);
+			}
+
 		}
+
+		/**
+		 * 削除処理実行後の動作
+		 *
+		 * リスト上で削除したデータの次のデータを選択する
+		 * 最終行のデータを削除した場合は一番上のデータが選択される
+		 */
+		if (((ArrayList<EnglishWordBean>) arg).size() < list.size()) {
+
+			setDataTable((ArrayList<EnglishWordBean>) arg);
+			if (list.size() > 0) {
+
+				if (row == -1 || list.size() == row) {
+					tbData.setRowSelectionInterval(0, 0);
+				} else if (list.size() > row) {
+					tbData.setRowSelectionInterval(row, row);
+				}
+
+			}
+
+		}
+
 		repaint();
 	}
 
